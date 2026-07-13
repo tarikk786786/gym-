@@ -6,26 +6,16 @@ import { defineConfig } from 'vite';
 import runtimeErrorOverlay from '@replit/vite-plugin-runtime-error-modal';
 
 const rawPort = process.env.PORT;
+// PORT is only needed for the dev server — during `vite build` the server
+// config is never used, so we fall back to a safe default rather than crash.
+const port = rawPort ? Number(rawPort) : 3000;
 
-if (!rawPort) {
-  throw new Error(
-    'PORT environment variable is required but was not provided.',
-  );
-}
-
-const port = Number(rawPort);
-
-if (Number.isNaN(port) || port <= 0) {
+if (rawPort && (Number.isNaN(port) || port <= 0)) {
   throw new Error(`Invalid PORT value: "${rawPort}"`);
 }
 
-const basePath = process.env.BASE_PATH;
-
-if (!basePath) {
-  throw new Error(
-    'BASE_PATH environment variable is required but was not provided.',
-  );
-}
+// BASE_PATH defaults to "/" which is correct for Netlify and most deployments.
+const basePath = process.env.BASE_PATH ?? '/';
 
 export default defineConfig({
   base: basePath,

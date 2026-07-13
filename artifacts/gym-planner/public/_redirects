@@ -1,0 +1,5 @@
+# API → Netlify Function (transparent rewrite)
+/api/*  /.netlify/functions/api/:splat  200
+
+# SPA fallback — all other routes serve index.html
+/*  /index.html  200

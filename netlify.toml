@@ -12,14 +12,14 @@
 [build]
   # Install deps then compile only the frontend (workspace libs are TS-source,
   # resolved directly by Vite — no separate lib build step needed).
-  command   = "pnpm install --frozen-lockfile=false && pnpm run netlify:build"
+  command   = "npm install -g pnpm@10 && pnpm install --no-frozen-lockfile && pnpm run netlify:build"
   publish   = "artifacts/gym-planner/dist/public"
   functions = "netlify/functions"
 
 [build.environment]
   # Node / pnpm versions
   NODE_VERSION = "20"
-  PNPM_VERSION = "9"
+  PNPM_VERSION = "10"
 
   # Required by vite.config.ts at startup (used only for dev-server binding;
   # ignored during production builds, but the guard runs regardless).
