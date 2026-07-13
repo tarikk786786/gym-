@@ -1,0 +1,84 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Netlify configuration — Tarik Islam AI Gym Planner
+#
+# Architecture:
+#   Frontend  → React + Vite SPA compiled to static files (Netlify CDN)
+#   Backend   → Express API wrapped in a Netlify Function (serverless-http)
+#
+# All /api/* traffic is transparently proxied to the function, so the SPA
+# continues to call relative URLs like /api/profile with no code changes.
+# ─────────────────────────────────────────────────────────────────────────────
+
+[build]
+  # Install deps then compile only the frontend (workspace libs are TS-source,
+  # resolved directly by Vite — no separate lib build step needed).
+  command   = "pnpm install --frozen-lockfile=false && pnpm run netlify:build"
+  publish   = "artifacts/gym-planner/dist/public"
+  functions = "netlify/functions"
+
+[build.environment]
+  # Node / pnpm versions
+  NODE_VERSION = "20"
+  PNPM_VERSION = "9"
+
+  # Required by vite.config.ts at startup (used only for dev-server binding;
+  # ignored during production builds, but the guard runs regardless).
+  BASE_PATH = "/"
+  PORT      = "8888"
+
+# ─── Functions ────────────────────────────────────────────────────────────────
+[functions]
+  # Let Netlify's esbuild handle TypeScript and workspace-package resolution.
+  node_bundler = "esbuild"
+
+[functions."api"]
+  # AI plan generation + PDF export can easily exceed the default 10 s limit.
+  # Starter plan: 10 s max. Pro plan: 26 s max.
+  timeout = 26
+
+  # pdfkit (and its fontkit sub-dependency) use dynamic require() to load font
+  # data from their own package directory at runtime. Bundling them breaks that
+  # path resolution — keep them as real node_modules instead.
+  external_node_modules = ["pdfkit", "fontkit", "linebreak", "restructure"]
+
+# ─── Routing ──────────────────────────────────────────────────────────────────
+
+# 1. Proxy all /api/* to the serverless function.
+#    This covers the REST API, Clerk's FAPI proxy (/api/__clerk), PDF reports,
+#    and the AI coach streaming endpoint.
+#    status=200 is a transparent rewrite — the browser URL never changes.
+[[redirects]]
+  from   = "/api/*"
+  to     = "/.netlify/functions/api/:splat"
+  status = 200
+  force  = true
+
+# 2. SPA fallback — every other path serves index.html so client-side routing
+#    (wouter) handles /dashboard, /workout, /blog/:slug, etc.
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 200
+
+# ─── Security / Cache Headers ─────────────────────────────────────────────────
+
+# Global security defaults
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options        = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy        = "strict-origin-when-cross-origin"
+    Permissions-Policy     = "camera=(), microphone=(), geolocation=()"
+
+# Vite content-hashed assets — safe to cache forever
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# HTML — never cache (always fresh so deploys take effect immediately)
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
