@@ -43,7 +43,11 @@
 
   # pdfkit and its sub-deps use dynamic require() to load font data from their
   # own package directory — keep them as real node_modules instead of bundling.
-  external_node_modules = ["pdfkit", "fontkit", "linebreak", "restructure", "pg", "pg-native"]
+  external_node_modules = [
+    "pdfkit", "fontkit", "linebreak", "restructure",
+    "@noble/ciphers", "@noble/hashes", "js-md5", "png-js",
+    "pg", "pg-native",
+  ]
 
   # Include the pre-built Express handler and all pdfkit font assets.
   included_files = [
