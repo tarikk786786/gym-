@@ -27,9 +27,15 @@ import type {
   DietGenerateInput,
   ErrorResponse,
   HealthStatus,
+  ListProgressLogsParams,
   NewsletterInput,
   PlansListResponse,
+  PrRecord,
+  PrRecordInput,
   ProfileInput,
+  ProgressLog,
+  ProgressLogInput,
+  ProgressSummary,
   SavedDietPlan,
   SavedWorkoutPlan,
   UserProfile,
@@ -800,5 +806,485 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
         TContext
       > => {
       return useMutation(getDeleteDietPlanMutationOptions(options));
+    }
+
+export const getListProgressLogsUrl = (params?: ListProgressLogsParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : String(value))
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/api/progress?${stringifiedParams}` : `/api/progress`
+}
+
+export const listProgressLogs = async (params?: ListProgressLogsParams, options?: RequestInit): Promise<ProgressLog[]> => {
+
+  return customFetch<ProgressLog[]>(getListProgressLogsUrl(params),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getListProgressLogsQueryKey = (params?: ListProgressLogsParams,) => {
+    return [
+    `/api/progress`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getListProgressLogsQueryOptions = <TData = Awaited<ReturnType<typeof listProgressLogs>>, TError = ErrorType<ErrorResponse>>(params?: ListProgressLogsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listProgressLogs>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListProgressLogsQueryKey(params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listProgressLogs>>> = ({ signal }) => listProgressLogs(params, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listProgressLogs>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type ListProgressLogsQueryResult = NonNullable<Awaited<ReturnType<typeof listProgressLogs>>>
+export type ListProgressLogsQueryError = ErrorType<ErrorResponse>
+
+
+
+export function useListProgressLogs<TData = Awaited<ReturnType<typeof listProgressLogs>>, TError = ErrorType<ErrorResponse>>(
+ params?: ListProgressLogsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listProgressLogs>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getListProgressLogsQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getCreateProgressLogUrl = () => {
+
+
+
+
+  return `/api/progress`
+}
+
+export const createProgressLog = async (progressLogInput: ProgressLogInput, options?: RequestInit): Promise<ProgressLog> => {
+
+  return customFetch<ProgressLog>(getCreateProgressLogUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(progressLogInput)
+  }
+);}
+
+
+
+
+
+export const getCreateProgressLogMutationOptions = <TError = ErrorType<ErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createProgressLog>>, TError,{data: BodyType<ProgressLogInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createProgressLog>>, TError,{data: BodyType<ProgressLogInput>}, TContext> => {
+
+const mutationKey = ['createProgressLog'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createProgressLog>>, {data: BodyType<ProgressLogInput>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  createProgressLog(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateProgressLogMutationResult = NonNullable<Awaited<ReturnType<typeof createProgressLog>>>
+    export type CreateProgressLogMutationBody = BodyType<ProgressLogInput>
+    export type CreateProgressLogMutationError = ErrorType<ErrorResponse>
+
+    export const useCreateProgressLog = <TError = ErrorType<ErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createProgressLog>>, TError,{data: BodyType<ProgressLogInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof createProgressLog>>,
+        TError,
+        {data: BodyType<ProgressLogInput>},
+        TContext
+      > => {
+      return useMutation(getCreateProgressLogMutationOptions(options));
+    }
+
+export const getDeleteProgressLogUrl = (id: string,) => {
+
+
+
+
+  return `/api/progress/${id}`
+}
+
+export const deleteProgressLog = async (id: string, options?: RequestInit): Promise<void> => {
+
+  return customFetch<void>(getDeleteProgressLogUrl(id),
+  {
+    ...options,
+    method: 'DELETE'
+
+
+  }
+);}
+
+
+
+
+
+export const getDeleteProgressLogMutationOptions = <TError = ErrorType<ErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteProgressLog>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteProgressLog>>, TError,{id: string}, TContext> => {
+
+const mutationKey = ['deleteProgressLog'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteProgressLog>>, {id: string}> = (props) => {
+          const {id} = props ?? {};
+
+          return  deleteProgressLog(id,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteProgressLogMutationResult = NonNullable<Awaited<ReturnType<typeof deleteProgressLog>>>
+
+    export type DeleteProgressLogMutationError = ErrorType<ErrorResponse>
+
+    export const useDeleteProgressLog = <TError = ErrorType<ErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteProgressLog>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof deleteProgressLog>>,
+        TError,
+        {id: string},
+        TContext
+      > => {
+      return useMutation(getDeleteProgressLogMutationOptions(options));
+    }
+
+export const getGetProgressSummaryUrl = () => {
+
+
+
+
+  return `/api/progress/summary`
+}
+
+export const getProgressSummary = async ( options?: RequestInit): Promise<ProgressSummary> => {
+
+  return customFetch<ProgressSummary>(getGetProgressSummaryUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetProgressSummaryQueryKey = () => {
+    return [
+    `/api/progress/summary`
+    ] as const;
+    }
+
+
+export const getGetProgressSummaryQueryOptions = <TData = Awaited<ReturnType<typeof getProgressSummary>>, TError = ErrorType<ErrorResponse>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getProgressSummary>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetProgressSummaryQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getProgressSummary>>> = ({ signal }) => getProgressSummary({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getProgressSummary>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetProgressSummaryQueryResult = NonNullable<Awaited<ReturnType<typeof getProgressSummary>>>
+export type GetProgressSummaryQueryError = ErrorType<ErrorResponse>
+
+
+
+export function useGetProgressSummary<TData = Awaited<ReturnType<typeof getProgressSummary>>, TError = ErrorType<ErrorResponse>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getProgressSummary>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetProgressSummaryQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getListPrRecordsUrl = () => {
+
+
+
+
+  return `/api/progress/prs`
+}
+
+export const listPrRecords = async ( options?: RequestInit): Promise<PrRecord[]> => {
+
+  return customFetch<PrRecord[]>(getListPrRecordsUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getListPrRecordsQueryKey = () => {
+    return [
+    `/api/progress/prs`
+    ] as const;
+    }
+
+
+export const getListPrRecordsQueryOptions = <TData = Awaited<ReturnType<typeof listPrRecords>>, TError = ErrorType<ErrorResponse>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listPrRecords>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListPrRecordsQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listPrRecords>>> = ({ signal }) => listPrRecords({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listPrRecords>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type ListPrRecordsQueryResult = NonNullable<Awaited<ReturnType<typeof listPrRecords>>>
+export type ListPrRecordsQueryError = ErrorType<ErrorResponse>
+
+
+
+export function useListPrRecords<TData = Awaited<ReturnType<typeof listPrRecords>>, TError = ErrorType<ErrorResponse>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listPrRecords>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getListPrRecordsQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getCreatePrRecordUrl = () => {
+
+
+
+
+  return `/api/progress/prs`
+}
+
+export const createPrRecord = async (prRecordInput: PrRecordInput, options?: RequestInit): Promise<PrRecord> => {
+
+  return customFetch<PrRecord>(getCreatePrRecordUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(prRecordInput)
+  }
+);}
+
+
+
+
+
+export const getCreatePrRecordMutationOptions = <TError = ErrorType<ErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createPrRecord>>, TError,{data: BodyType<PrRecordInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createPrRecord>>, TError,{data: BodyType<PrRecordInput>}, TContext> => {
+
+const mutationKey = ['createPrRecord'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createPrRecord>>, {data: BodyType<PrRecordInput>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  createPrRecord(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreatePrRecordMutationResult = NonNullable<Awaited<ReturnType<typeof createPrRecord>>>
+    export type CreatePrRecordMutationBody = BodyType<PrRecordInput>
+    export type CreatePrRecordMutationError = ErrorType<ErrorResponse>
+
+    export const useCreatePrRecord = <TError = ErrorType<ErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createPrRecord>>, TError,{data: BodyType<PrRecordInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof createPrRecord>>,
+        TError,
+        {data: BodyType<PrRecordInput>},
+        TContext
+      > => {
+      return useMutation(getCreatePrRecordMutationOptions(options));
+    }
+
+export const getDeletePrRecordUrl = (id: string,) => {
+
+
+
+
+  return `/api/progress/prs/${id}`
+}
+
+export const deletePrRecord = async (id: string, options?: RequestInit): Promise<void> => {
+
+  return customFetch<void>(getDeletePrRecordUrl(id),
+  {
+    ...options,
+    method: 'DELETE'
+
+
+  }
+);}
+
+
+
+
+
+export const getDeletePrRecordMutationOptions = <TError = ErrorType<ErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deletePrRecord>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof deletePrRecord>>, TError,{id: string}, TContext> => {
+
+const mutationKey = ['deletePrRecord'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deletePrRecord>>, {id: string}> = (props) => {
+          const {id} = props ?? {};
+
+          return  deletePrRecord(id,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeletePrRecordMutationResult = NonNullable<Awaited<ReturnType<typeof deletePrRecord>>>
+
+    export type DeletePrRecordMutationError = ErrorType<ErrorResponse>
+
+    export const useDeletePrRecord = <TError = ErrorType<ErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deletePrRecord>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof deletePrRecord>>,
+        TError,
+        {id: string},
+        TContext
+      > => {
+      return useMutation(getDeletePrRecordMutationOptions(options));
     }
 

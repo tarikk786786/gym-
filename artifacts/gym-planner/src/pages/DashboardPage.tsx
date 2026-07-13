@@ -2,7 +2,7 @@ import { Link } from "wouter";
 import { useGetProfile } from "@workspace/api-client-react";
 import { useUser } from "@clerk/react";
 import { Navbar } from "@/components/landing/Navbar";
-import { Dumbbell, Utensils, Target, MessageSquare, Calculator, ClipboardList, ArrowRight, AlertCircle } from "lucide-react";
+import { Dumbbell, Utensils, Target, MessageSquare, Calculator, ClipboardList, ArrowRight, AlertCircle, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function DashboardPage() {
@@ -112,14 +112,21 @@ export default function DashboardPage() {
               description="Track your transformation"
               icon={Target}
               href="/progress"
-              status="Coming Soon"
+              status="Launch"
             />
             <FeatureCard 
               title="AI Coach"
               description="Chat with your personal AI coach"
               icon={MessageSquare}
               href="/coach"
-              status="Coming Soon"
+              status="Launch"
+            />
+            <FeatureCard 
+              title="PDF Report"
+              description="Download your fitness report"
+              icon={FileText}
+              href="/reports"
+              status="Launch"
             />
           </div>
         </div>

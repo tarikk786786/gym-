@@ -19,6 +19,10 @@ import WorkoutPage from '@/pages/WorkoutPage';
 import DietPage from '@/pages/DietPage';
 import PlansPage from '@/pages/PlansPage';
 
+import ProgressPage from '@/pages/ProgressPage';
+import CoachPage from '@/pages/CoachPage';
+import ReportsPage from '@/pages/ReportsPage';
+import { CoachWidget } from '@/components/CoachWidget';
 import { useGetProfile, getGetProfileQueryKey } from "@workspace/api-client-react";
 
 const queryClient = new QueryClient();
@@ -241,8 +245,23 @@ function ClerkProviderWithRoutes() {
               <ProtectedRoute component={PlansPage} />
             </Route>
 
+            <Route path="/progress">
+              <ProtectedRoute component={ProgressPage} />
+            </Route>
+
+            <Route path="/coach">
+              <ProtectedRoute component={CoachPage} />
+            </Route>
+
+            <Route path="/reports">
+              <ProtectedRoute component={ReportsPage} />
+            </Route>
+
             <Route component={NotFound} />
           </Switch>
+          <Show when="signed-in">
+            <CoachWidget />
+          </Show>
         </TooltipProvider>
       </QueryClientProvider>
     </ClerkProvider>

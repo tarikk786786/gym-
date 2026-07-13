@@ -272,6 +272,182 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+  # ── Progress ──────────────────────────────────────────────────────────────
+  /progress:
+    get:
+      operationId: listProgressLogs
+      tags: [progress]
+      parameters:
+        - name: from
+          in: query
+          schema:
+            type: string
+        - name: to
+          in: query
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Progress logs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProgressLog"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    post:
+      operationId: createProgressLog
+      tags: [progress]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProgressLogInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProgressLog"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /progress/{id}:
+    delete:
+      operationId: deleteProgressLog
+      tags: [progress]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Deleted
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /progress/summary:
+    get:
+      operationId: getProgressSummary
+      tags: [progress]
+      responses:
+        "200":
+          description: Progress summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProgressSummary"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  # ── Personal Records ──────────────────────────────────────────────────────
+  /progress/prs:
+    get:
+      operationId: listPrRecords
+      tags: [progress]
+      responses:
+        "200":
+          description: PR records
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PrRecord"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    post:
+      operationId: createPrRecord
+      tags: [progress]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PrRecordInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PrRecord"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /progress/prs/{id}:
+    delete:
+      operationId: deletePrRecord
+      tags: [progress]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Deleted
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 components:
   schemas:
     HealthStatus:
@@ -737,3 +913,167 @@ components:
           items:
             $ref: "#/components/schemas/SavedDietPlan"
       required: [workoutPlans, dietPlans]
+    # ── Progress Logs ─────────────────────────────────────────────────────────
+    ProgressLogInput:
+      type: object
+      properties:
+        logDate:
+          type: string
+        weightKg:
+          type: ["number", "null"]
+        bodyFatPercent:
+          type: ["number", "null"]
+        chestCm:
+          type: ["number", "null"]
+        waistCm:
+          type: ["number", "null"]
+        hipsCm:
+          type: ["number", "null"]
+        armsCm:
+          type: ["number", "null"]
+        thighsCm:
+          type: ["number", "null"]
+        shouldersCm:
+          type: ["number", "null"]
+        caloriesConsumed:
+          type: ["integer", "null"]
+        waterLiters:
+          type: ["number", "null"]
+        sleepHours:
+          type: ["number", "null"]
+        stressLevel:
+          type: ["integer", "null"]
+        workoutCompleted:
+          type: ["boolean", "null"]
+        workoutDurationMin:
+          type: ["integer", "null"]
+        workoutNotes:
+          type: ["string", "null"]
+        notes:
+          type: ["string", "null"]
+        mood:
+          type: ["string", "null"]
+      required: [logDate]
+    ProgressLog:
+      type: object
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        logDate:
+          type: string
+        weightKg:
+          type: ["number", "null"]
+        bodyFatPercent:
+          type: ["number", "null"]
+        chestCm:
+          type: ["number", "null"]
+        waistCm:
+          type: ["number", "null"]
+        hipsCm:
+          type: ["number", "null"]
+        armsCm:
+          type: ["number", "null"]
+        thighsCm:
+          type: ["number", "null"]
+        shouldersCm:
+          type: ["number", "null"]
+        caloriesConsumed:
+          type: ["integer", "null"]
+        waterLiters:
+          type: ["number", "null"]
+        sleepHours:
+          type: ["number", "null"]
+        stressLevel:
+          type: ["integer", "null"]
+        workoutCompleted:
+          type: ["boolean", "null"]
+        workoutDurationMin:
+          type: ["integer", "null"]
+        workoutNotes:
+          type: ["string", "null"]
+        notes:
+          type: ["string", "null"]
+        mood:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required: [id, userId, logDate, createdAt, updatedAt]
+    ProgressSummaryPeriod:
+      type: object
+      properties:
+        avgWeightKg:
+          type: ["number", "null"]
+        avgBodyFatPercent:
+          type: ["number", "null"]
+        avgCaloriesConsumed:
+          type: ["number", "null"]
+        avgWaterLiters:
+          type: ["number", "null"]
+        avgSleepHours:
+          type: ["number", "null"]
+        workoutCount:
+          type: integer
+        totalLogs:
+          type: integer
+      required: [workoutCount, totalLogs]
+    ProgressSummary:
+      type: object
+      properties:
+        weekly:
+          $ref: "#/components/schemas/ProgressSummaryPeriod"
+        monthly:
+          $ref: "#/components/schemas/ProgressSummaryPeriod"
+        allTime:
+          $ref: "#/components/schemas/ProgressSummaryPeriod"
+        streak:
+          type: integer
+        totalLogs:
+          type: integer
+      required: [weekly, monthly, allTime, streak, totalLogs]
+    # ── Personal Records ─────────────────────────────────────────────────────
+    PrRecordInput:
+      type: object
+      properties:
+        exercise:
+          type: string
+        weightKg:
+          type: ["number", "null"]
+        reps:
+          type: ["integer", "null"]
+        distanceKm:
+          type: ["number", "null"]
+        durationSec:
+          type: ["integer", "null"]
+        notes:
+          type: ["string", "null"]
+        achievedAt:
+          type: string
+      required: [exercise, achievedAt]
+    PrRecord:
+      type: object
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        exercise:
+          type: string
+        weightKg:
+          type: ["number", "null"]
+        reps:
+          type: ["integer", "null"]
+        distanceKm:
+          type: ["number", "null"]
+        durationSec:
+          type: ["integer", "null"]
+        notes:
+          type: ["string", "null"]
+        achievedAt:
+          type: string
+        createdAt:
+          type: string
+      required: [id, userId, exercise, achievedAt, createdAt]

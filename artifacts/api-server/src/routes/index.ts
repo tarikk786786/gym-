@@ -4,6 +4,9 @@ import contactRouter from "./contact";
 import profileRouter from "./profile";
 import calculatorsRouter from "./calculators";
 import generatorsRouter from "./generators";
+import progressRouter from "./progress";
+import coachRouter from "./coach";
+import reportsRouter from "./reports";
 
 const router: IRouter = Router();
 
@@ -12,5 +15,8 @@ router.use(contactRouter);
 router.use(profileRouter);
 router.use(calculatorsRouter);
 router.use(generatorsRouter);
+router.use(progressRouter);
+router.use(coachRouter);
+router.use(reportsRouter);
 
 export default router;

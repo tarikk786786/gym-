@@ -323,3 +323,145 @@ export interface PlansListResponse {
   dietPlans: SavedDietPlan[];
 }
 
+export interface ProgressLogInput {
+  logDate: string;
+  /** @nullable */
+  weightKg?: number | null;
+  /** @nullable */
+  bodyFatPercent?: number | null;
+  /** @nullable */
+  chestCm?: number | null;
+  /** @nullable */
+  waistCm?: number | null;
+  /** @nullable */
+  hipsCm?: number | null;
+  /** @nullable */
+  armsCm?: number | null;
+  /** @nullable */
+  thighsCm?: number | null;
+  /** @nullable */
+  shouldersCm?: number | null;
+  /** @nullable */
+  caloriesConsumed?: number | null;
+  /** @nullable */
+  waterLiters?: number | null;
+  /** @nullable */
+  sleepHours?: number | null;
+  /** @nullable */
+  stressLevel?: number | null;
+  /** @nullable */
+  workoutCompleted?: boolean | null;
+  /** @nullable */
+  workoutDurationMin?: number | null;
+  /** @nullable */
+  workoutNotes?: string | null;
+  /** @nullable */
+  notes?: string | null;
+  /** @nullable */
+  mood?: string | null;
+}
+
+export interface ProgressLog {
+  id: string;
+  userId: string;
+  logDate: string;
+  /** @nullable */
+  weightKg?: number | null;
+  /** @nullable */
+  bodyFatPercent?: number | null;
+  /** @nullable */
+  chestCm?: number | null;
+  /** @nullable */
+  waistCm?: number | null;
+  /** @nullable */
+  hipsCm?: number | null;
+  /** @nullable */
+  armsCm?: number | null;
+  /** @nullable */
+  thighsCm?: number | null;
+  /** @nullable */
+  shouldersCm?: number | null;
+  /** @nullable */
+  caloriesConsumed?: number | null;
+  /** @nullable */
+  waterLiters?: number | null;
+  /** @nullable */
+  sleepHours?: number | null;
+  /** @nullable */
+  stressLevel?: number | null;
+  /** @nullable */
+  workoutCompleted?: boolean | null;
+  /** @nullable */
+  workoutDurationMin?: number | null;
+  /** @nullable */
+  workoutNotes?: string | null;
+  /** @nullable */
+  notes?: string | null;
+  /** @nullable */
+  mood?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ProgressSummaryPeriod {
+  /** @nullable */
+  avgWeightKg?: number | null;
+  /** @nullable */
+  avgBodyFatPercent?: number | null;
+  /** @nullable */
+  avgCaloriesConsumed?: number | null;
+  /** @nullable */
+  avgWaterLiters?: number | null;
+  /** @nullable */
+  avgSleepHours?: number | null;
+  workoutCount: number;
+  totalLogs: number;
+}
+
+export interface ProgressSummary {
+  weekly: ProgressSummaryPeriod;
+  monthly: ProgressSummaryPeriod;
+  allTime: ProgressSummaryPeriod;
+  streak: number;
+  totalLogs: number;
+}
+
+export interface PrRecordInput {
+  exercise: string;
+  /** @nullable */
+  weightKg?: number | null;
+  /** @nullable */
+  reps?: number | null;
+  /** @nullable */
+  distanceKm?: number | null;
+  /** @nullable */
+  durationSec?: number | null;
+  /** @nullable */
+  notes?: string | null;
+  achievedAt: string;
+}
+
+export interface PrRecord {
+  id: string;
+  userId: string;
+  exercise: string;
+  /** @nullable */
+  weightKg?: number | null;
+  /** @nullable */
+  reps?: number | null;
+  /** @nullable */
+  distanceKm?: number | null;
+  /** @nullable */
+  durationSec?: number | null;
+  /** @nullable */
+  notes?: string | null;
+  achievedAt: string;
+  createdAt: string;
+}
+
+export type ListProgressLogsParams = {
+from?: string;
+to?: string;
+limit?: number;
+};
+

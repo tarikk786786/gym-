@@ -360,3 +360,169 @@ export const DeleteDietPlanParams = zod.object({
 export const DeleteDietPlanResponse = zod.void()
 
 
+export const ListProgressLogsQueryParams = zod.object({
+  "from": zod.coerce.string().optional(),
+  "to": zod.coerce.string().optional(),
+  "limit": zod.coerce.number().optional()
+})
+
+export const ListProgressLogsResponseItem = zod.object({
+  "id": zod.string(),
+  "userId": zod.string(),
+  "logDate": zod.string(),
+  "weightKg": zod.number().nullish(),
+  "bodyFatPercent": zod.number().nullish(),
+  "chestCm": zod.number().nullish(),
+  "waistCm": zod.number().nullish(),
+  "hipsCm": zod.number().nullish(),
+  "armsCm": zod.number().nullish(),
+  "thighsCm": zod.number().nullish(),
+  "shouldersCm": zod.number().nullish(),
+  "caloriesConsumed": zod.number().nullish(),
+  "waterLiters": zod.number().nullish(),
+  "sleepHours": zod.number().nullish(),
+  "stressLevel": zod.number().nullish(),
+  "workoutCompleted": zod.boolean().nullish(),
+  "workoutDurationMin": zod.number().nullish(),
+  "workoutNotes": zod.string().nullish(),
+  "notes": zod.string().nullish(),
+  "mood": zod.string().nullish(),
+  "createdAt": zod.string(),
+  "updatedAt": zod.string()
+})
+export const ListProgressLogsResponse = zod.array(ListProgressLogsResponseItem)
+
+
+export const CreateProgressLogBody = zod.object({
+  "logDate": zod.string(),
+  "weightKg": zod.number().nullish(),
+  "bodyFatPercent": zod.number().nullish(),
+  "chestCm": zod.number().nullish(),
+  "waistCm": zod.number().nullish(),
+  "hipsCm": zod.number().nullish(),
+  "armsCm": zod.number().nullish(),
+  "thighsCm": zod.number().nullish(),
+  "shouldersCm": zod.number().nullish(),
+  "caloriesConsumed": zod.number().nullish(),
+  "waterLiters": zod.number().nullish(),
+  "sleepHours": zod.number().nullish(),
+  "stressLevel": zod.number().nullish(),
+  "workoutCompleted": zod.boolean().nullish(),
+  "workoutDurationMin": zod.number().nullish(),
+  "workoutNotes": zod.string().nullish(),
+  "notes": zod.string().nullish(),
+  "mood": zod.string().nullish()
+})
+
+export const CreateProgressLogResponse = zod.object({
+  "id": zod.string(),
+  "userId": zod.string(),
+  "logDate": zod.string(),
+  "weightKg": zod.number().nullish(),
+  "bodyFatPercent": zod.number().nullish(),
+  "chestCm": zod.number().nullish(),
+  "waistCm": zod.number().nullish(),
+  "hipsCm": zod.number().nullish(),
+  "armsCm": zod.number().nullish(),
+  "thighsCm": zod.number().nullish(),
+  "shouldersCm": zod.number().nullish(),
+  "caloriesConsumed": zod.number().nullish(),
+  "waterLiters": zod.number().nullish(),
+  "sleepHours": zod.number().nullish(),
+  "stressLevel": zod.number().nullish(),
+  "workoutCompleted": zod.boolean().nullish(),
+  "workoutDurationMin": zod.number().nullish(),
+  "workoutNotes": zod.string().nullish(),
+  "notes": zod.string().nullish(),
+  "mood": zod.string().nullish(),
+  "createdAt": zod.string(),
+  "updatedAt": zod.string()
+})
+
+
+export const DeleteProgressLogParams = zod.object({
+  "id": zod.coerce.string()
+})
+
+export const DeleteProgressLogResponse = zod.void()
+
+
+export const GetProgressSummaryResponse = zod.object({
+  "weekly": zod.object({
+  "avgWeightKg": zod.number().nullish(),
+  "avgBodyFatPercent": zod.number().nullish(),
+  "avgCaloriesConsumed": zod.number().nullish(),
+  "avgWaterLiters": zod.number().nullish(),
+  "avgSleepHours": zod.number().nullish(),
+  "workoutCount": zod.number(),
+  "totalLogs": zod.number()
+}),
+  "monthly": zod.object({
+  "avgWeightKg": zod.number().nullish(),
+  "avgBodyFatPercent": zod.number().nullish(),
+  "avgCaloriesConsumed": zod.number().nullish(),
+  "avgWaterLiters": zod.number().nullish(),
+  "avgSleepHours": zod.number().nullish(),
+  "workoutCount": zod.number(),
+  "totalLogs": zod.number()
+}),
+  "allTime": zod.object({
+  "avgWeightKg": zod.number().nullish(),
+  "avgBodyFatPercent": zod.number().nullish(),
+  "avgCaloriesConsumed": zod.number().nullish(),
+  "avgWaterLiters": zod.number().nullish(),
+  "avgSleepHours": zod.number().nullish(),
+  "workoutCount": zod.number(),
+  "totalLogs": zod.number()
+}),
+  "streak": zod.number(),
+  "totalLogs": zod.number()
+})
+
+
+export const ListPrRecordsResponseItem = zod.object({
+  "id": zod.string(),
+  "userId": zod.string(),
+  "exercise": zod.string(),
+  "weightKg": zod.number().nullish(),
+  "reps": zod.number().nullish(),
+  "distanceKm": zod.number().nullish(),
+  "durationSec": zod.number().nullish(),
+  "notes": zod.string().nullish(),
+  "achievedAt": zod.string(),
+  "createdAt": zod.string()
+})
+export const ListPrRecordsResponse = zod.array(ListPrRecordsResponseItem)
+
+
+export const CreatePrRecordBody = zod.object({
+  "exercise": zod.string(),
+  "weightKg": zod.number().nullish(),
+  "reps": zod.number().nullish(),
+  "distanceKm": zod.number().nullish(),
+  "durationSec": zod.number().nullish(),
+  "notes": zod.string().nullish(),
+  "achievedAt": zod.string()
+})
+
+export const CreatePrRecordResponse = zod.object({
+  "id": zod.string(),
+  "userId": zod.string(),
+  "exercise": zod.string(),
+  "weightKg": zod.number().nullish(),
+  "reps": zod.number().nullish(),
+  "distanceKm": zod.number().nullish(),
+  "durationSec": zod.number().nullish(),
+  "notes": zod.string().nullish(),
+  "achievedAt": zod.string(),
+  "createdAt": zod.string()
+})
+
+
+export const DeletePrRecordParams = zod.object({
+  "id": zod.coerce.string()
+})
+
+export const DeletePrRecordResponse = zod.void()
+
+
