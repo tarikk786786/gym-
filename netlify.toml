@@ -15,7 +15,7 @@
   # dashboard base dir is set to artifacts/gym-planner, the publish path and
   # build commands are resolved from there, producing wrong nested paths.
   base      = "."
-  command   = "corepack enable 2>/dev/null; pnpm install --no-frozen-lockfile && pnpm --filter @workspace/api-server run build && pnpm --filter @workspace/gym-planner run build"
+  command   = "corepack enable 2>/dev/null; pnpm install --no-frozen-lockfile && pnpm --filter @workspace/gym-planner run build"
   publish   = "artifacts/gym-planner/dist/public"
   functions = "netlify/functions"
 
@@ -30,32 +30,22 @@
   PORT      = "8888"
 
 # ─── Functions ────────────────────────────────────────────────────────────────
-# The api function imports a pre-built ESM bundle (artifacts/api-server/dist/handler.mjs)
-# produced during the build step.  Netlify only needs to bundle serverless-http
-# on top of it — no TypeScript resolution or workspace traversal needed.
+# Netlify's esbuild bundles api.ts from TypeScript source, resolving all
+# workspace packages via pnpm symlinks created during the install step.
 [functions]
   node_bundler = "esbuild"
 
 [functions."api"]
-  # AI plan generation + PDF export can easily exceed the default 10 s limit.
-  # Starter plan: 10 s max. Pro plan: 26 s max.
+  # AI plan generation + PDF export can exceed the default 10 s limit.
   timeout = 26
 
-  # pdfkit and its sub-deps use dynamic require() to load font data from their
-  # own package directory — keep them as real node_modules instead of bundling.
+  # pdfkit and its runtime deps use dynamic require() to load font files from
+  # their own package directories — keep them as real node_modules, not bundled.
+  # They are hoisted to the workspace root so Netlify finds them at deploy time.
   external_node_modules = [
     "pdfkit", "fontkit", "linebreak", "restructure",
     "@noble/ciphers", "@noble/hashes", "js-md5", "png-js",
     "pg", "pg-native",
-  ]
-
-  # Include the pre-built Express handler and all pdfkit font assets.
-  included_files = [
-    "artifacts/api-server/dist/handler.mjs",
-    "node_modules/pdfkit/**",
-    "node_modules/fontkit/**",
-    "node_modules/linebreak/**",
-    "node_modules/restructure/**",
   ]
 
 # ─── Routing ──────────────────────────────────────────────────────────────────
