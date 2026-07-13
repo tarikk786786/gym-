@@ -1,0 +1,27 @@
+kind = "web"
+previewPath = "/"
+title = "Tarik Islam AI Gym Planner"
+version = "1.0.0"
+id = "artifacts/gym-planner"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23346
+
+[services.development]
+run = "pnpm --filter @workspace/gym-planner run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/gym-planner", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/gym-planner/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23346"
+BASE_PATH = "/"
