@@ -1,5 +1,6 @@
 import { Router } from "express";
-import PDFDocument from "pdfkit";
+// pdfkit loaded lazily so the serverless cold-start doesn't require it at module load time
+type PDFDocumentType = typeof import("pdfkit").default;
 
 // ─── NVIDIA NIM helper (OpenAI-compatible) ────────────────────────────────────
 async function callGemini(prompt: string): Promise<string> {
@@ -304,6 +305,8 @@ CRITICAL RULES:
 
   // ── Build PDF ────────────────────────────────────────────────────────────
   try {
+    // Dynamic import so the module loads on first PDF request, not at startup
+    const PDFDocument = (await import("pdfkit")).default as unknown as new (...a: ConstructorParameters<PDFDocumentType>) => InstanceType<PDFDocumentType>;
     const doc = new PDFDocument({ margin: M, size: "A4", bufferPages: true, autoFirstPage: true });
     const buffers: Buffer[] = [];
     doc.on("data", (c: Buffer) => buffers.push(c));

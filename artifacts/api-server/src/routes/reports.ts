@@ -8,7 +8,7 @@ import {
   dietPlansTable,
   progressLogsTable,
 } from "@workspace/db";
-import PDFDocument from "pdfkit";
+// pdfkit loaded lazily so the serverless cold-start doesn't require it at module load time
 
 const router: IRouter = Router();
 
@@ -31,7 +31,7 @@ function requireAuth(req: any, res: any, next: any) {
 }
 
 function drawSection(
-  doc: PDFKit.PDFDocument,
+  doc: InstanceType<typeof import("pdfkit").default>,
   title: string,
   y: number,
 ): number {
@@ -46,7 +46,7 @@ function drawSection(
   return y + 28;
 }
 
-function drawFooter(doc: PDFKit.PDFDocument) {
+function drawFooter(doc: InstanceType<typeof import("pdfkit").default>) {
   const y = doc.page.height - 50;
   doc
     .moveTo(50, y)
@@ -139,6 +139,7 @@ router.get(
       `attachment; filename="fitness-report-${new Date().toISOString().split("T")[0]}.pdf"`,
     );
 
+    const PDFDocument = (await import("pdfkit")).default;
     const doc = new PDFDocument({ size: "A4", margin: 50 });
     doc.pipe(res);
 
