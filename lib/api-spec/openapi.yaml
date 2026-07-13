@@ -1,6 +1,5 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
   description: API specification
@@ -9,18 +8,18 @@ servers:
     description: Base API path
 tags:
   - name: health
-    description: Health operations
   - name: contact
-    description: Contact and newsletter operations
   - name: profile
-    description: User profile operations
+  - name: calculators
+  - name: workout
+  - name: diet
+  - name: plans
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -32,8 +31,6 @@ paths:
     post:
       operationId: submitContact
       tags: [contact]
-      summary: Submit contact form
-      description: Submit a contact or newsletter sign-up message
       requestBody:
         required: true
         content:
@@ -42,13 +39,13 @@ paths:
               $ref: "#/components/schemas/ContactInput"
       responses:
         "200":
-          description: Message received
+          description: OK
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ContactResponse"
         "400":
-          description: Invalid input
+          description: Bad request
           content:
             application/json:
               schema:
@@ -57,8 +54,6 @@ paths:
     post:
       operationId: subscribeNewsletter
       tags: [contact]
-      summary: Subscribe to newsletter
-      description: Subscribe an email address to the newsletter
       requestBody:
         required: true
         content:
@@ -67,13 +62,13 @@ paths:
               $ref: "#/components/schemas/NewsletterInput"
       responses:
         "200":
-          description: Subscribed successfully
+          description: OK
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ContactResponse"
         "400":
-          description: Invalid input
+          description: Bad request
           content:
             application/json:
               schema:
@@ -82,8 +77,6 @@ paths:
     get:
       operationId: getProfile
       tags: [profile]
-      summary: Get current user profile
-      description: Returns the authenticated user's profile
       responses:
         "200":
           description: User profile
@@ -98,7 +91,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
         "404":
-          description: Profile not found (onboarding not completed)
+          description: Not found
           content:
             application/json:
               schema:
@@ -106,8 +99,6 @@ paths:
     put:
       operationId: updateProfile
       tags: [profile]
-      summary: Create or update user profile
-      description: Upserts the authenticated user's profile data
       requestBody:
         required: true
         content:
@@ -116,19 +107,167 @@ paths:
               $ref: "#/components/schemas/ProfileInput"
       responses:
         "200":
-          description: Profile saved
+          description: Saved
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/UserProfile"
         "400":
-          description: Invalid input
+          description: Bad request
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
         "401":
           description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /calculators/compute:
+    post:
+      operationId: computeCalculators
+      tags: [calculators]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CalculatorInput"
+      responses:
+        "200":
+          description: Results
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CalculatorResults"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /workout/generate:
+    post:
+      operationId: generateWorkoutPlan
+      tags: [workout]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WorkoutGenerateInput"
+      responses:
+        "200":
+          description: Generated plan
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SavedWorkoutPlan"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /diet/generate:
+    post:
+      operationId: generateDietPlan
+      tags: [diet]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DietGenerateInput"
+      responses:
+        "200":
+          description: Generated plan
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SavedDietPlan"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /plans:
+    get:
+      operationId: listPlans
+      tags: [plans]
+      responses:
+        "200":
+          description: Plans list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlansListResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /plans/workout/{id}:
+    delete:
+      operationId: deleteWorkoutPlan
+      tags: [plans]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Deleted
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /plans/diet/{id}:
+    delete:
+      operationId: deleteDietPlan
+      tags: [plans]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Deleted
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Not found
           content:
             application/json:
               schema:
@@ -140,8 +279,13 @@ components:
       properties:
         status:
           type: string
-      required:
-        - status
+      required: [status]
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required: [error]
     ContactInput:
       type: object
       properties:
@@ -158,10 +302,7 @@ components:
         type:
           type: string
           enum: [contact, newsletter]
-      required:
-        - name
-        - email
-        - message
+      required: [name, email, message]
     NewsletterInput:
       type: object
       properties:
@@ -169,8 +310,7 @@ components:
           type: string
         name:
           type: ["string", "null"]
-      required:
-        - email
+      required: [email]
     ContactResponse:
       type: object
       properties:
@@ -178,16 +318,7 @@ components:
           type: boolean
         message:
           type: string
-      required:
-        - success
-        - message
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: string
-      required:
-        - error
+      required: [success, message]
     UserProfile:
       type: object
       properties:
@@ -251,10 +382,7 @@ components:
           type: string
         updatedAt:
           type: string
-      required:
-        - id
-        - createdAt
-        - updatedAt
+      required: [id, createdAt, updatedAt]
     ProfileInput:
       type: object
       properties:
@@ -312,3 +440,300 @@ components:
           type: ["string", "null"]
         onboardingCompleted:
           type: ["boolean", "null"]
+    # ── Calculators ──────────────────────────────────────────────────────────
+    CalculatorInput:
+      type: object
+      properties:
+        weightKg:
+          type: number
+        heightCm:
+          type: number
+        age:
+          type: integer
+        gender:
+          type: string
+        activityLevel:
+          type: string
+        bodyFatPercent:
+          type: ["number", "null"]
+        wristCm:
+          type: ["number", "null"]
+        hipCm:
+          type: ["number", "null"]
+        waistCm:
+          type: ["number", "null"]
+        forearmCm:
+          type: ["number", "null"]
+        oneRepMaxWeightKg:
+          type: ["number", "null"]
+        oneRepMaxReps:
+          type: ["integer", "null"]
+        exerciseMets:
+          type: ["number", "null"]
+        exerciseDurationMin:
+          type: ["integer", "null"]
+        runDistanceKm:
+          type: ["number", "null"]
+        runTimeMin:
+          type: ["number", "null"]
+      required: [weightKg, heightCm, age, gender, activityLevel]
+    CalculatorResults:
+      type: object
+      properties:
+        bmi:
+          type: number
+        bmiCategory:
+          type: string
+        bmr:
+          type: number
+        tdee:
+          type: number
+        fatLossCalories:
+          type: number
+        muscleGainCalories:
+          type: number
+        maintenanceCalories:
+          type: number
+        proteinGrams:
+          type: number
+        carbsGrams:
+          type: number
+        fatGrams:
+          type: number
+        waterIntakeLiters:
+          type: number
+        leanBodyMassKg:
+          type: ["number", "null"]
+        bodyFatKg:
+          type: ["number", "null"]
+        idealWeightKgLow:
+          type: number
+        idealWeightKgHigh:
+          type: number
+        oneRepMaxKg:
+          type: ["number", "null"]
+        caloriesBurned:
+          type: ["number", "null"]
+        pace:
+          type: ["number", "null"]
+      required:
+        - bmi
+        - bmiCategory
+        - bmr
+        - tdee
+        - fatLossCalories
+        - muscleGainCalories
+        - maintenanceCalories
+        - proteinGrams
+        - carbsGrams
+        - fatGrams
+        - waterIntakeLiters
+        - idealWeightKgLow
+        - idealWeightKgHigh
+    # ── Workout Generator ─────────────────────────────────────────────────────
+    WorkoutGenerateInput:
+      type: object
+      properties:
+        goal:
+          type: string
+        experience:
+          type: string
+        split:
+          type: string
+        daysPerWeek:
+          type: integer
+        location:
+          type: string
+        additionalNotes:
+          type: ["string", "null"]
+      required: [goal, experience, split, daysPerWeek, location]
+    WorkoutExercise:
+      type: object
+      properties:
+        name:
+          type: string
+        primaryMuscles:
+          type: array
+          items:
+            type: string
+        secondaryMuscles:
+          type: array
+          items:
+            type: string
+        sets:
+          type: integer
+        reps:
+          type: string
+        rest:
+          type: string
+        tempo:
+          type: string
+        rpe:
+          type: integer
+        tips:
+          type: string
+        commonMistakes:
+          type: string
+      required: [name, primaryMuscles, secondaryMuscles, sets, reps, rest, tempo, rpe, tips, commonMistakes]
+    WorkoutDay:
+      type: object
+      properties:
+        day:
+          type: string
+        sessionName:
+          type: string
+        targetMuscles:
+          type: string
+        estimatedDurationMin:
+          type: integer
+        warmup:
+          type: string
+        cooldown:
+          type: string
+        exercises:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkoutExercise"
+      required: [day, sessionName, targetMuscles, estimatedDurationMin, warmup, cooldown, exercises]
+    WorkoutPlanData:
+      type: object
+      properties:
+        programName:
+          type: string
+        duration:
+          type: string
+        overview:
+          type: string
+        weeklySchedule:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkoutDay"
+        progressionNotes:
+          type: string
+      required: [programName, duration, overview, weeklySchedule, progressionNotes]
+    SavedWorkoutPlan:
+      type: object
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        goal:
+          type: string
+        experience:
+          type: string
+        split:
+          type: string
+        daysPerWeek:
+          type: integer
+        location:
+          type: string
+        additionalNotes:
+          type: ["string", "null"]
+        plan:
+          $ref: "#/components/schemas/WorkoutPlanData"
+        createdAt:
+          type: string
+      required: [id, userId, goal, experience, split, daysPerWeek, location, plan, createdAt]
+    # ── Diet Generator ────────────────────────────────────────────────────────
+    DietGenerateInput:
+      type: object
+      properties:
+        cuisine:
+          type: string
+        calorieTarget:
+          type: integer
+        dietStyle:
+          type: string
+        allergies:
+          type: ["string", "null"]
+      required: [cuisine, calorieTarget, dietStyle]
+    DietMeal:
+      type: object
+      properties:
+        name:
+          type: string
+        time:
+          type: string
+        items:
+          type: array
+          items:
+            type: string
+        calories:
+          type: integer
+        proteinG:
+          type: number
+        carbsG:
+          type: number
+        fatG:
+          type: number
+        fiberG:
+          type: number
+      required: [name, time, items, calories, proteinG, carbsG, fatG, fiberG]
+    DietMacros:
+      type: object
+      properties:
+        proteinG:
+          type: number
+        carbsG:
+          type: number
+        fatG:
+          type: number
+        fiberG:
+          type: number
+        sugarG:
+          type: number
+      required: [proteinG, carbsG, fatG, fiberG, sugarG]
+    DietPlanData:
+      type: object
+      properties:
+        dailyCalorieTarget:
+          type: integer
+        macros:
+          $ref: "#/components/schemas/DietMacros"
+        meals:
+          type: array
+          items:
+            $ref: "#/components/schemas/DietMeal"
+        shoppingList:
+          type: array
+          items:
+            type: string
+        estimatedWeeklyBudgetUSD:
+          type: number
+        nutritionTips:
+          type: string
+      required: [dailyCalorieTarget, macros, meals, shoppingList, estimatedWeeklyBudgetUSD, nutritionTips]
+    SavedDietPlan:
+      type: object
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        cuisine:
+          type: string
+        calorieTarget:
+          type: integer
+        dietStyle:
+          type: string
+        allergies:
+          type: ["string", "null"]
+        plan:
+          $ref: "#/components/schemas/DietPlanData"
+        createdAt:
+          type: string
+      required: [id, userId, cuisine, calorieTarget, dietStyle, plan, createdAt]
+    # ── Plans List ────────────────────────────────────────────────────────────
+    PlansListResponse:
+      type: object
+      properties:
+        workoutPlans:
+          type: array
+          items:
+            $ref: "#/components/schemas/SavedWorkoutPlan"
+        dietPlans:
+          type: array
+          items:
+            $ref: "#/components/schemas/SavedDietPlan"
+      required: [workoutPlans, dietPlans]

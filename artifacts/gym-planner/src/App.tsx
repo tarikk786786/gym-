@@ -14,6 +14,10 @@ import SignUpPage from '@/pages/SignUpPage';
 import OnboardingPage from '@/pages/OnboardingPage';
 import DashboardPage from '@/pages/DashboardPage';
 import ProfilePage from '@/pages/ProfilePage';
+import CalculatorsPage from '@/pages/CalculatorsPage';
+import WorkoutPage from '@/pages/WorkoutPage';
+import DietPage from '@/pages/DietPage';
+import PlansPage from '@/pages/PlansPage';
 
 import { useGetProfile, getGetProfileQueryKey } from "@workspace/api-client-react";
 
@@ -221,6 +225,20 @@ function ClerkProviderWithRoutes() {
             
             <Route path="/profile">
               <ProtectedRoute component={ProfilePage} />
+            </Route>
+            
+            <Route path="/calculators" component={CalculatorsPage} />
+
+            <Route path="/workout">
+              <ProtectedRoute component={WorkoutPage} />
+            </Route>
+
+            <Route path="/diet">
+              <ProtectedRoute component={DietPage} />
+            </Route>
+
+            <Route path="/plans">
+              <ProtectedRoute component={PlansPage} />
             </Route>
 
             <Route component={NotFound} />

@@ -2,7 +2,7 @@ import { Link } from "wouter";
 import { useGetProfile } from "@workspace/api-client-react";
 import { useUser } from "@clerk/react";
 import { Navbar } from "@/components/landing/Navbar";
-import { Dumbbell, Utensils, Target, MessageSquare, ArrowRight, AlertCircle } from "lucide-react";
+import { Dumbbell, Utensils, Target, MessageSquare, Calculator, ClipboardList, ArrowRight, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function DashboardPage() {
@@ -81,17 +81,31 @@ export default function DashboardPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <FeatureCard 
               title="AI Workout Generator"
-              description="Generate your personalized plan"
+              description="Generate your personalized weekly plan"
               icon={Dumbbell}
               href="/workout"
-              status="Coming Soon"
+              status="Launch"
             />
             <FeatureCard 
               title="AI Diet Planner"
-              description="Get your meal blueprint"
+              description="Get your custom meal blueprint"
               icon={Utensils}
               href="/diet"
-              status="Coming Soon"
+              status="Launch"
+            />
+            <FeatureCard 
+              title="Fitness Calculators"
+              description="BMI, TDEE, macros, 1RM and more"
+              icon={Calculator}
+              href="/calculators"
+              status="Launch"
+            />
+            <FeatureCard 
+              title="My Plans"
+              description="View and manage saved plans"
+              icon={ClipboardList}
+              href="/plans"
+              status="Launch"
             />
             <FeatureCard 
               title="Progress Tracker"
@@ -102,7 +116,7 @@ export default function DashboardPage() {
             />
             <FeatureCard 
               title="AI Coach"
-              description="Chat with your coach"
+              description="Chat with your personal AI coach"
               icon={MessageSquare}
               href="/coach"
               status="Coming Soon"

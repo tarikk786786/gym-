@@ -6,11 +6,24 @@
  * OpenAPI spec version: 0.1.0
  */
 
+export * from './calculatorInput';
+export * from './calculatorResults';
 export * from './contactInput';
 export * from './contactInputType';
 export * from './contactResponse';
+export * from './dietGenerateInput';
+export * from './dietMacros';
+export * from './dietMeal';
+export * from './dietPlanData';
 export * from './errorResponse';
 export * from './healthStatus';
 export * from './newsletterInput';
+export * from './plansListResponse';
 export * from './profileInput';
+export * from './savedDietPlan';
+export * from './savedWorkoutPlan';
 export * from './userProfile';
+export * from './workoutDay';
+export * from './workoutExercise';
+export * from './workoutGenerateInput';
+export * from './workoutPlanData';

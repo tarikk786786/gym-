@@ -9,7 +9,6 @@ import * as zod from 'zod';
 
 
 /**
- * Returns server health status
  * @summary Health check
  */
 export const HealthCheckResponse = zod.object({
@@ -17,10 +16,6 @@ export const HealthCheckResponse = zod.object({
 })
 
 
-/**
- * Submit a contact or newsletter sign-up message
- * @summary Submit contact form
- */
 
 
 
@@ -39,10 +34,6 @@ export const SubmitContactResponse = zod.object({
 })
 
 
-/**
- * Subscribe an email address to the newsletter
- * @summary Subscribe to newsletter
- */
 export const SubscribeNewsletterBody = zod.object({
   "email": zod.string(),
   "name": zod.string().nullish()
@@ -54,10 +45,6 @@ export const SubscribeNewsletterResponse = zod.object({
 })
 
 
-/**
- * Returns the authenticated user's profile
- * @summary Get current user profile
- */
 export const GetProfileResponse = zod.object({
   "id": zod.string(),
   "fullName": zod.string().nullish(),
@@ -92,10 +79,6 @@ export const GetProfileResponse = zod.object({
 })
 
 
-/**
- * Upserts the authenticated user's profile data
- * @summary Create or update user profile
- */
 export const UpdateProfileBody = zod.object({
   "fullName": zod.string().nullish(),
   "age": zod.number().nullish(),
@@ -158,5 +141,222 @@ export const UpdateProfileResponse = zod.object({
   "createdAt": zod.string(),
   "updatedAt": zod.string()
 })
+
+
+export const ComputeCalculatorsBody = zod.object({
+  "weightKg": zod.number(),
+  "heightCm": zod.number(),
+  "age": zod.number(),
+  "gender": zod.string(),
+  "activityLevel": zod.string(),
+  "bodyFatPercent": zod.number().nullish(),
+  "wristCm": zod.number().nullish(),
+  "hipCm": zod.number().nullish(),
+  "waistCm": zod.number().nullish(),
+  "forearmCm": zod.number().nullish(),
+  "oneRepMaxWeightKg": zod.number().nullish(),
+  "oneRepMaxReps": zod.number().nullish(),
+  "exerciseMets": zod.number().nullish(),
+  "exerciseDurationMin": zod.number().nullish(),
+  "runDistanceKm": zod.number().nullish(),
+  "runTimeMin": zod.number().nullish()
+})
+
+export const ComputeCalculatorsResponse = zod.object({
+  "bmi": zod.number(),
+  "bmiCategory": zod.string(),
+  "bmr": zod.number(),
+  "tdee": zod.number(),
+  "fatLossCalories": zod.number(),
+  "muscleGainCalories": zod.number(),
+  "maintenanceCalories": zod.number(),
+  "proteinGrams": zod.number(),
+  "carbsGrams": zod.number(),
+  "fatGrams": zod.number(),
+  "waterIntakeLiters": zod.number(),
+  "leanBodyMassKg": zod.number().nullish(),
+  "bodyFatKg": zod.number().nullish(),
+  "idealWeightKgLow": zod.number(),
+  "idealWeightKgHigh": zod.number(),
+  "oneRepMaxKg": zod.number().nullish(),
+  "caloriesBurned": zod.number().nullish(),
+  "pace": zod.number().nullish()
+})
+
+
+export const GenerateWorkoutPlanBody = zod.object({
+  "goal": zod.string(),
+  "experience": zod.string(),
+  "split": zod.string(),
+  "daysPerWeek": zod.number(),
+  "location": zod.string(),
+  "additionalNotes": zod.string().nullish()
+})
+
+export const GenerateWorkoutPlanResponse = zod.object({
+  "id": zod.string(),
+  "userId": zod.string(),
+  "goal": zod.string(),
+  "experience": zod.string(),
+  "split": zod.string(),
+  "daysPerWeek": zod.number(),
+  "location": zod.string(),
+  "additionalNotes": zod.string().nullish(),
+  "plan": zod.object({
+  "programName": zod.string(),
+  "duration": zod.string(),
+  "overview": zod.string(),
+  "weeklySchedule": zod.array(zod.object({
+  "day": zod.string(),
+  "sessionName": zod.string(),
+  "targetMuscles": zod.string(),
+  "estimatedDurationMin": zod.number(),
+  "warmup": zod.string(),
+  "cooldown": zod.string(),
+  "exercises": zod.array(zod.object({
+  "name": zod.string(),
+  "primaryMuscles": zod.array(zod.string()),
+  "secondaryMuscles": zod.array(zod.string()),
+  "sets": zod.number(),
+  "reps": zod.string(),
+  "rest": zod.string(),
+  "tempo": zod.string(),
+  "rpe": zod.number(),
+  "tips": zod.string(),
+  "commonMistakes": zod.string()
+}))
+})),
+  "progressionNotes": zod.string()
+}),
+  "createdAt": zod.string()
+})
+
+
+export const GenerateDietPlanBody = zod.object({
+  "cuisine": zod.string(),
+  "calorieTarget": zod.number(),
+  "dietStyle": zod.string(),
+  "allergies": zod.string().nullish()
+})
+
+export const GenerateDietPlanResponse = zod.object({
+  "id": zod.string(),
+  "userId": zod.string(),
+  "cuisine": zod.string(),
+  "calorieTarget": zod.number(),
+  "dietStyle": zod.string(),
+  "allergies": zod.string().nullish(),
+  "plan": zod.object({
+  "dailyCalorieTarget": zod.number(),
+  "macros": zod.object({
+  "proteinG": zod.number(),
+  "carbsG": zod.number(),
+  "fatG": zod.number(),
+  "fiberG": zod.number(),
+  "sugarG": zod.number()
+}),
+  "meals": zod.array(zod.object({
+  "name": zod.string(),
+  "time": zod.string(),
+  "items": zod.array(zod.string()),
+  "calories": zod.number(),
+  "proteinG": zod.number(),
+  "carbsG": zod.number(),
+  "fatG": zod.number(),
+  "fiberG": zod.number()
+})),
+  "shoppingList": zod.array(zod.string()),
+  "estimatedWeeklyBudgetUSD": zod.number(),
+  "nutritionTips": zod.string()
+}),
+  "createdAt": zod.string()
+})
+
+
+export const ListPlansResponse = zod.object({
+  "workoutPlans": zod.array(zod.object({
+  "id": zod.string(),
+  "userId": zod.string(),
+  "goal": zod.string(),
+  "experience": zod.string(),
+  "split": zod.string(),
+  "daysPerWeek": zod.number(),
+  "location": zod.string(),
+  "additionalNotes": zod.string().nullish(),
+  "plan": zod.object({
+  "programName": zod.string(),
+  "duration": zod.string(),
+  "overview": zod.string(),
+  "weeklySchedule": zod.array(zod.object({
+  "day": zod.string(),
+  "sessionName": zod.string(),
+  "targetMuscles": zod.string(),
+  "estimatedDurationMin": zod.number(),
+  "warmup": zod.string(),
+  "cooldown": zod.string(),
+  "exercises": zod.array(zod.object({
+  "name": zod.string(),
+  "primaryMuscles": zod.array(zod.string()),
+  "secondaryMuscles": zod.array(zod.string()),
+  "sets": zod.number(),
+  "reps": zod.string(),
+  "rest": zod.string(),
+  "tempo": zod.string(),
+  "rpe": zod.number(),
+  "tips": zod.string(),
+  "commonMistakes": zod.string()
+}))
+})),
+  "progressionNotes": zod.string()
+}),
+  "createdAt": zod.string()
+})),
+  "dietPlans": zod.array(zod.object({
+  "id": zod.string(),
+  "userId": zod.string(),
+  "cuisine": zod.string(),
+  "calorieTarget": zod.number(),
+  "dietStyle": zod.string(),
+  "allergies": zod.string().nullish(),
+  "plan": zod.object({
+  "dailyCalorieTarget": zod.number(),
+  "macros": zod.object({
+  "proteinG": zod.number(),
+  "carbsG": zod.number(),
+  "fatG": zod.number(),
+  "fiberG": zod.number(),
+  "sugarG": zod.number()
+}),
+  "meals": zod.array(zod.object({
+  "name": zod.string(),
+  "time": zod.string(),
+  "items": zod.array(zod.string()),
+  "calories": zod.number(),
+  "proteinG": zod.number(),
+  "carbsG": zod.number(),
+  "fatG": zod.number(),
+  "fiberG": zod.number()
+})),
+  "shoppingList": zod.array(zod.string()),
+  "estimatedWeeklyBudgetUSD": zod.number(),
+  "nutritionTips": zod.string()
+}),
+  "createdAt": zod.string()
+}))
+})
+
+
+export const DeleteWorkoutPlanParams = zod.object({
+  "id": zod.coerce.string()
+})
+
+export const DeleteWorkoutPlanResponse = zod.void()
+
+
+export const DeleteDietPlanParams = zod.object({
+  "id": zod.coerce.string()
+})
+
+export const DeleteDietPlanResponse = zod.void()
 
 

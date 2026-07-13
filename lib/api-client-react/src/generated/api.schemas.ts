@@ -9,6 +9,10 @@ export interface HealthStatus {
   status: string;
 }
 
+export interface ErrorResponse {
+  error: string;
+}
+
 export type ContactInputType = typeof ContactInputType[keyof typeof ContactInputType];
 
 
@@ -36,10 +40,6 @@ export interface NewsletterInput {
 export interface ContactResponse {
   success: boolean;
   message: string;
-}
-
-export interface ErrorResponse {
-  error: string;
 }
 
 export interface UserProfile {
@@ -157,5 +157,169 @@ export interface ProfileInput {
   preferredWorkoutTime?: string | null;
   /** @nullable */
   onboardingCompleted?: boolean | null;
+}
+
+export interface CalculatorInput {
+  weightKg: number;
+  heightCm: number;
+  age: number;
+  gender: string;
+  activityLevel: string;
+  /** @nullable */
+  bodyFatPercent?: number | null;
+  /** @nullable */
+  wristCm?: number | null;
+  /** @nullable */
+  hipCm?: number | null;
+  /** @nullable */
+  waistCm?: number | null;
+  /** @nullable */
+  forearmCm?: number | null;
+  /** @nullable */
+  oneRepMaxWeightKg?: number | null;
+  /** @nullable */
+  oneRepMaxReps?: number | null;
+  /** @nullable */
+  exerciseMets?: number | null;
+  /** @nullable */
+  exerciseDurationMin?: number | null;
+  /** @nullable */
+  runDistanceKm?: number | null;
+  /** @nullable */
+  runTimeMin?: number | null;
+}
+
+export interface CalculatorResults {
+  bmi: number;
+  bmiCategory: string;
+  bmr: number;
+  tdee: number;
+  fatLossCalories: number;
+  muscleGainCalories: number;
+  maintenanceCalories: number;
+  proteinGrams: number;
+  carbsGrams: number;
+  fatGrams: number;
+  waterIntakeLiters: number;
+  /** @nullable */
+  leanBodyMassKg?: number | null;
+  /** @nullable */
+  bodyFatKg?: number | null;
+  idealWeightKgLow: number;
+  idealWeightKgHigh: number;
+  /** @nullable */
+  oneRepMaxKg?: number | null;
+  /** @nullable */
+  caloriesBurned?: number | null;
+  /** @nullable */
+  pace?: number | null;
+}
+
+export interface WorkoutGenerateInput {
+  goal: string;
+  experience: string;
+  split: string;
+  daysPerWeek: number;
+  location: string;
+  /** @nullable */
+  additionalNotes?: string | null;
+}
+
+export interface WorkoutExercise {
+  name: string;
+  primaryMuscles: string[];
+  secondaryMuscles: string[];
+  sets: number;
+  reps: string;
+  rest: string;
+  tempo: string;
+  rpe: number;
+  tips: string;
+  commonMistakes: string;
+}
+
+export interface WorkoutDay {
+  day: string;
+  sessionName: string;
+  targetMuscles: string;
+  estimatedDurationMin: number;
+  warmup: string;
+  cooldown: string;
+  exercises: WorkoutExercise[];
+}
+
+export interface WorkoutPlanData {
+  programName: string;
+  duration: string;
+  overview: string;
+  weeklySchedule: WorkoutDay[];
+  progressionNotes: string;
+}
+
+export interface SavedWorkoutPlan {
+  id: string;
+  userId: string;
+  goal: string;
+  experience: string;
+  split: string;
+  daysPerWeek: number;
+  location: string;
+  /** @nullable */
+  additionalNotes?: string | null;
+  plan: WorkoutPlanData;
+  createdAt: string;
+}
+
+export interface DietGenerateInput {
+  cuisine: string;
+  calorieTarget: number;
+  dietStyle: string;
+  /** @nullable */
+  allergies?: string | null;
+}
+
+export interface DietMeal {
+  name: string;
+  time: string;
+  items: string[];
+  calories: number;
+  proteinG: number;
+  carbsG: number;
+  fatG: number;
+  fiberG: number;
+}
+
+export interface DietMacros {
+  proteinG: number;
+  carbsG: number;
+  fatG: number;
+  fiberG: number;
+  sugarG: number;
+}
+
+export interface DietPlanData {
+  dailyCalorieTarget: number;
+  macros: DietMacros;
+  meals: DietMeal[];
+  shoppingList: string[];
+  estimatedWeeklyBudgetUSD: number;
+  nutritionTips: string;
+}
+
+export interface SavedDietPlan {
+  id: string;
+  userId: string;
+  cuisine: string;
+  calorieTarget: number;
+  dietStyle: string;
+  /** @nullable */
+  allergies?: string | null;
+  plan: DietPlanData;
+  createdAt: string;
+}
+
+export interface PlansListResponse {
+  workoutPlans: SavedWorkoutPlan[];
+  dietPlans: SavedDietPlan[];
 }
 
