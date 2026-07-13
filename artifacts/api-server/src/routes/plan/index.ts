@@ -1,15 +1,39 @@
 import { Router } from "express";
 import PDFDocument from "pdfkit";
-import { ai } from "@workspace/integrations-gemini-ai";
 
-// ─── Gemini helper ────────────────────────────────────────────────────────────
+// ─── NVIDIA NIM helper (OpenAI-compatible) ────────────────────────────────────
 async function callGemini(prompt: string): Promise<string> {
-  const response = await ai.models.generateContent({
-    model: "gemini-2.5-flash",
-    contents: [{ role: "user", parts: [{ text: prompt }] }],
-    config: { maxOutputTokens: 32768, responseMimeType: "application/json" },
+  const apiKey = process.env.NVIDIA_API_KEY;
+  if (!apiKey) throw new Error("NVIDIA_API_KEY is not set.");
+
+  const resp = await fetch("https://integrate.api.nvidia.com/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model: "meta/llama-3.1-405b-instruct",
+      messages: [
+        {
+          role: "system",
+          content: "You are an elite certified personal trainer and sports nutritionist. Always respond with valid JSON only — no markdown, no code fences, no extra text.",
+        },
+        { role: "user", content: prompt },
+      ],
+      temperature: 0.4,
+      max_tokens: 16384,
+      stream: false,
+    }),
   });
-  return response.text ?? "{}";
+
+  if (!resp.ok) {
+    const err = await resp.text().catch(() => resp.statusText);
+    throw new Error(`NVIDIA API error ${resp.status}: ${err}`);
+  }
+
+  const data = await resp.json() as { choices: Array<{ message: { content: string } }> };
+  return data.choices[0]?.message?.content ?? "";
 }
 
 const router = Router();
