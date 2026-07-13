@@ -74,6 +74,8 @@ export const GetProfileResponse = zod.object({
   "workoutDaysPerWeek": zod.number().nullish(),
   "preferredWorkoutTime": zod.string().nullish(),
   "onboardingCompleted": zod.boolean().nullish(),
+  "isAdmin": zod.boolean(),
+  "isSuspended": zod.boolean(),
   "createdAt": zod.string(),
   "updatedAt": zod.string()
 })
@@ -138,6 +140,8 @@ export const UpdateProfileResponse = zod.object({
   "workoutDaysPerWeek": zod.number().nullish(),
   "preferredWorkoutTime": zod.string().nullish(),
   "onboardingCompleted": zod.boolean().nullish(),
+  "isAdmin": zod.boolean(),
+  "isSuspended": zod.boolean(),
   "createdAt": zod.string(),
   "updatedAt": zod.string()
 })
@@ -524,5 +528,42 @@ export const DeletePrRecordParams = zod.object({
 })
 
 export const DeletePrRecordResponse = zod.void()
+
+
+export const ListBlogsQueryParams = zod.object({
+  "publishedOnly": zod.coerce.boolean().optional()
+})
+
+export const ListBlogsResponseItem = zod.object({
+  "id": zod.string(),
+  "title": zod.string(),
+  "slug": zod.string(),
+  "content": zod.string(),
+  "excerpt": zod.string().nullish(),
+  "published": zod.boolean(),
+  "authorId": zod.string(),
+  "coverImageUrl": zod.string().nullish(),
+  "createdAt": zod.string(),
+  "updatedAt": zod.string()
+})
+export const ListBlogsResponse = zod.array(ListBlogsResponseItem)
+
+
+export const GetBlogBySlugParams = zod.object({
+  "slug": zod.coerce.string()
+})
+
+export const GetBlogBySlugResponse = zod.object({
+  "id": zod.string(),
+  "title": zod.string(),
+  "slug": zod.string(),
+  "content": zod.string(),
+  "excerpt": zod.string().nullish(),
+  "published": zod.boolean(),
+  "authorId": zod.string(),
+  "coverImageUrl": zod.string().nullish(),
+  "createdAt": zod.string(),
+  "updatedAt": zod.string()
+})
 
 

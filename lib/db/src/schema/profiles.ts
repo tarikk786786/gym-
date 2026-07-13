@@ -39,6 +39,8 @@ export const profilesTable = pgTable("profiles", {
   workoutDaysPerWeek: integer("workout_days_per_week"),
   preferredWorkoutTime: text("preferred_workout_time"), // morning | afternoon | evening | flexible
   onboardingCompleted: boolean("onboarding_completed").default(false),
+  isAdmin: boolean("is_admin").notNull().default(false),
+  isSuspended: boolean("is_suspended").notNull().default(false),
   createdAt: timestamp("created_at", { withTimezone: true })
     .notNull()
     .defaultNow(),

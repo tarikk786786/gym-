@@ -1,8 +1,13 @@
 import { Router } from "express";
+import {
+  db,
+  contactSubmissionsTable,
+  newsletterSubscribersTable,
+} from "@workspace/db";
 
 const router = Router();
 
-router.post("/contact", (req, res) => {
+router.post("/contact", async (req, res) => {
   const { name, email, subject, message, type } = req.body ?? {};
 
   if (!name || typeof name !== "string" || name.trim().length === 0) {
@@ -18,10 +23,15 @@ router.post("/contact", (req, res) => {
     return;
   }
 
-  req.log.info(
-    { name: String(name), email: String(email), subject: subject ?? "(none)", type: type ?? "contact" },
-    "Contact form submission received",
-  );
+  await db.insert(contactSubmissionsTable).values({
+    name: name.trim(),
+    email: email.trim().toLowerCase(),
+    subject: subject ?? null,
+    message: message.trim(),
+    type: type ?? "contact",
+  });
+
+  req.log.info({ name, email, subject, type }, "Contact form submission saved");
 
   res.json({
     success: true,
@@ -29,7 +39,7 @@ router.post("/contact", (req, res) => {
   });
 });
 
-router.post("/newsletter", (req, res) => {
+router.post("/newsletter", async (req, res) => {
   const { email, name } = req.body ?? {};
 
   if (!email || typeof email !== "string" || !email.includes("@")) {
@@ -37,10 +47,12 @@ router.post("/newsletter", (req, res) => {
     return;
   }
 
-  req.log.info(
-    { email: String(email), name: name ?? "anonymous" },
-    "Newsletter subscription",
-  );
+  await db
+    .insert(newsletterSubscribersTable)
+    .values({ email: email.trim().toLowerCase(), name: name ?? null })
+    .onConflictDoNothing();
+
+  req.log.info({ email, name }, "Newsletter subscription saved");
 
   res.json({
     success: true,

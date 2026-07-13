@@ -6,19 +6,28 @@
  * OpenAPI spec version: 0.1.0
  */
 
+export * from './adminStats';
+export * from './adminUser';
+export * from './blog';
+export * from './blogInput';
 export * from './calculatorInput';
 export * from './calculatorResults';
 export * from './contactInput';
 export * from './contactInputType';
 export * from './contactResponse';
+export * from './contactSubmission';
 export * from './dietGenerateInput';
 export * from './dietMacros';
 export * from './dietMeal';
 export * from './dietPlanData';
+export * from './dietTemplate';
+export * from './dietTemplateInput';
 export * from './errorResponse';
 export * from './healthStatus';
+export * from './listBlogsParams';
 export * from './listProgressLogsParams';
 export * from './newsletterInput';
+export * from './newsletterSubscriber';
 export * from './plansListResponse';
 export * from './profileInput';
 export * from './progressLog';
@@ -29,8 +38,11 @@ export * from './prRecord';
 export * from './prRecordInput';
 export * from './savedDietPlan';
 export * from './savedWorkoutPlan';
+export * from './systemSetting';
 export * from './userProfile';
 export * from './workoutDay';
 export * from './workoutExercise';
 export * from './workoutGenerateInput';
 export * from './workoutPlanData';
+export * from './workoutTemplate';
+export * from './workoutTemplateInput';

@@ -448,6 +448,48 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+  # ── Public Blog ──────────────────────────────────────────────────────────
+  /blogs:
+    get:
+      operationId: listBlogs
+      tags: [blog]
+      parameters:
+        - name: publishedOnly
+          in: query
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: Blog posts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Blog"
+  /blogs/{slug}:
+    get:
+      operationId: getBlogBySlug
+      tags: [blog]
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Blog post
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Blog"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 components:
   schemas:
     HealthStatus:
@@ -554,11 +596,15 @@ components:
           type: ["string", "null"]
         onboardingCompleted:
           type: ["boolean", "null"]
+        isAdmin:
+          type: boolean
+        isSuspended:
+          type: boolean
         createdAt:
           type: string
         updatedAt:
           type: string
-      required: [id, createdAt, updatedAt]
+      required: [id, isAdmin, isSuspended, createdAt, updatedAt]
     ProfileInput:
       type: object
       properties:
@@ -1077,3 +1123,230 @@ components:
         createdAt:
           type: string
       required: [id, userId, exercise, achievedAt, createdAt]
+    # ── Admin ─────────────────────────────────────────────────────────────────
+    AdminStats:
+      type: object
+      properties:
+        totalUsers:
+          type: integer
+        totalWorkoutPlans:
+          type: integer
+        totalDietPlans:
+          type: integer
+        plansToday:
+          type: integer
+        plansThisWeek:
+          type: integer
+        contactLeads:
+          type: integer
+        unreadLeads:
+          type: integer
+        newsletterSubscribers:
+          type: integer
+        totalBlogs:
+          type: integer
+        publishedBlogs:
+          type: integer
+        totalWorkoutTemplates:
+          type: integer
+        totalDietTemplates:
+          type: integer
+      required: [totalUsers, totalWorkoutPlans, totalDietPlans, plansToday, plansThisWeek, contactLeads, unreadLeads, newsletterSubscribers, totalBlogs, publishedBlogs, totalWorkoutTemplates, totalDietTemplates]
+    AdminUser:
+      type: object
+      properties:
+        id:
+          type: string
+        fullName:
+          type: ["string", "null"]
+        goal:
+          type: ["string", "null"]
+        activityLevel:
+          type: ["string", "null"]
+        workoutExperience:
+          type: ["string", "null"]
+        onboardingCompleted:
+          type: ["boolean", "null"]
+        isAdmin:
+          type: boolean
+        isSuspended:
+          type: boolean
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required: [id, isAdmin, isSuspended, createdAt, updatedAt]
+    ContactSubmission:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        subject:
+          type: ["string", "null"]
+        message:
+          type: string
+        type:
+          type: string
+        isRead:
+          type: boolean
+        createdAt:
+          type: string
+      required: [id, name, email, message, type, isRead, createdAt]
+    NewsletterSubscriber:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        name:
+          type: ["string", "null"]
+        active:
+          type: boolean
+        createdAt:
+          type: string
+      required: [id, email, active, createdAt]
+    WorkoutTemplate:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: ["string", "null"]
+        goal:
+          type: string
+        experience:
+          type: string
+        split:
+          type: string
+        daysPerWeek:
+          type: integer
+        location:
+          type: string
+        plan:
+          $ref: "#/components/schemas/WorkoutPlanData"
+        createdBy:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required: [id, title, goal, experience, split, daysPerWeek, location, plan, createdBy, createdAt, updatedAt]
+    WorkoutTemplateInput:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: ["string", "null"]
+        goal:
+          type: string
+        experience:
+          type: string
+        split:
+          type: string
+        daysPerWeek:
+          type: integer
+        location:
+          type: string
+        plan:
+          $ref: "#/components/schemas/WorkoutPlanData"
+      required: [title, goal, experience, split, daysPerWeek, location, plan]
+    DietTemplate:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: ["string", "null"]
+        cuisine:
+          type: string
+        calorieTarget:
+          type: integer
+        dietStyle:
+          type: string
+        allergies:
+          type: ["string", "null"]
+        plan:
+          $ref: "#/components/schemas/DietPlanData"
+        createdBy:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required: [id, title, cuisine, calorieTarget, dietStyle, plan, createdBy, createdAt, updatedAt]
+    DietTemplateInput:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: ["string", "null"]
+        cuisine:
+          type: string
+        calorieTarget:
+          type: integer
+        dietStyle:
+          type: string
+        allergies:
+          type: ["string", "null"]
+        plan:
+          $ref: "#/components/schemas/DietPlanData"
+      required: [title, cuisine, calorieTarget, dietStyle, plan]
+    Blog:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        slug:
+          type: string
+        content:
+          type: string
+        excerpt:
+          type: ["string", "null"]
+        published:
+          type: boolean
+        authorId:
+          type: string
+        coverImageUrl:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required: [id, title, slug, content, published, authorId, createdAt, updatedAt]
+    BlogInput:
+      type: object
+      properties:
+        title:
+          type: string
+        slug:
+          type: string
+        content:
+          type: string
+        excerpt:
+          type: ["string", "null"]
+        published:
+          type: boolean
+        coverImageUrl:
+          type: ["string", "null"]
+      required: [title, slug, content, published]
+    SystemSetting:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+      required: [key, value]

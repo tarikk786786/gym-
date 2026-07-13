@@ -2,7 +2,7 @@ import { Link } from "wouter";
 import { useGetProfile } from "@workspace/api-client-react";
 import { useUser } from "@clerk/react";
 import { Navbar } from "@/components/landing/Navbar";
-import { Dumbbell, Utensils, Target, MessageSquare, Calculator, ClipboardList, ArrowRight, AlertCircle, FileText } from "lucide-react";
+import { Dumbbell, Utensils, Target, MessageSquare, Calculator, ClipboardList, ArrowRight, AlertCircle, FileText, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function DashboardPage() {
@@ -128,6 +128,15 @@ export default function DashboardPage() {
               href="/reports"
               status="Launch"
             />
+            {profile?.isAdmin && (
+              <FeatureCard 
+                title="Admin Panel"
+                description="Manage platform & users"
+                icon={ShieldCheck}
+                href="/admin"
+                status="Admin Only"
+              />
+            )}
           </div>
         </div>
       </main>

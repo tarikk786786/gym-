@@ -62,6 +62,8 @@ export interface UserProfile {
   preferredWorkoutTime?: string | null;
   /** @nullable */
   onboardingCompleted?: boolean | null;
+  isAdmin: boolean;
+  isSuspended: boolean;
   createdAt: string;
   updatedAt: string;
 }

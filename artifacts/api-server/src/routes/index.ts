@@ -7,6 +7,8 @@ import generatorsRouter from "./generators";
 import progressRouter from "./progress";
 import coachRouter from "./coach";
 import reportsRouter from "./reports";
+import adminRouter from "./admin";
+import blogsRouter from "./blogs";
 
 const router: IRouter = Router();
 
@@ -18,5 +20,7 @@ router.use(generatorsRouter);
 router.use(progressRouter);
 router.use(coachRouter);
 router.use(reportsRouter);
+router.use(adminRouter);
+router.use(blogsRouter);
 
 export default router;

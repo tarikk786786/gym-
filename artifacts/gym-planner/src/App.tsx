@@ -25,6 +25,16 @@ import ReportsPage from '@/pages/ReportsPage';
 import { CoachWidget } from '@/components/CoachWidget';
 import { useGetProfile, getGetProfileQueryKey } from "@workspace/api-client-react";
 
+import { AdminLayout } from '@/pages/admin/AdminLayout';
+import AdminDashboard from '@/pages/admin/AdminDashboard';
+import AdminUsers from '@/pages/admin/AdminUsers';
+import AdminLeads from '@/pages/admin/AdminLeads';
+import AdminNewsletter from '@/pages/admin/AdminNewsletter';
+import AdminTemplates from '@/pages/admin/AdminTemplates';
+import AdminBlogs from '@/pages/admin/AdminBlogs';
+import AdminSettings from '@/pages/admin/AdminSettings';
+import BlogPostPage from '@/pages/BlogPostPage';
+
 const queryClient = new QueryClient();
 
 const clerkPubKey = publishableKeyFromHost(
@@ -256,6 +266,53 @@ function ClerkProviderWithRoutes() {
             <Route path="/reports">
               <ProtectedRoute component={ReportsPage} />
             </Route>
+
+            {/* Admin Routes */}
+            <Route path="/admin">
+              <Show when="signed-in">
+                <AdminLayout><AdminDashboard /></AdminLayout>
+              </Show>
+              <Show when="signed-out"><Redirect to="/sign-in" /></Show>
+            </Route>
+            <Route path="/admin/users">
+              <Show when="signed-in">
+                <AdminLayout><AdminUsers /></AdminLayout>
+              </Show>
+              <Show when="signed-out"><Redirect to="/sign-in" /></Show>
+            </Route>
+            <Route path="/admin/leads">
+              <Show when="signed-in">
+                <AdminLayout><AdminLeads /></AdminLayout>
+              </Show>
+              <Show when="signed-out"><Redirect to="/sign-in" /></Show>
+            </Route>
+            <Route path="/admin/newsletter">
+              <Show when="signed-in">
+                <AdminLayout><AdminNewsletter /></AdminLayout>
+              </Show>
+              <Show when="signed-out"><Redirect to="/sign-in" /></Show>
+            </Route>
+            <Route path="/admin/templates">
+              <Show when="signed-in">
+                <AdminLayout><AdminTemplates /></AdminLayout>
+              </Show>
+              <Show when="signed-out"><Redirect to="/sign-in" /></Show>
+            </Route>
+            <Route path="/admin/blogs">
+              <Show when="signed-in">
+                <AdminLayout><AdminBlogs /></AdminLayout>
+              </Show>
+              <Show when="signed-out"><Redirect to="/sign-in" /></Show>
+            </Route>
+            <Route path="/admin/settings">
+              <Show when="signed-in">
+                <AdminLayout><AdminSettings /></AdminLayout>
+              </Show>
+              <Show when="signed-out"><Redirect to="/sign-in" /></Show>
+            </Route>
+
+            {/* Public Blog */}
+            <Route path="/blog/:slug" component={BlogPostPage} />
 
             <Route component={NotFound} />
           </Switch>

@@ -98,6 +98,8 @@ export interface UserProfile {
   preferredWorkoutTime?: string | null;
   /** @nullable */
   onboardingCompleted?: boolean | null;
+  isAdmin: boolean;
+  isSuspended: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -459,9 +461,154 @@ export interface PrRecord {
   createdAt: string;
 }
 
+export interface AdminStats {
+  totalUsers: number;
+  totalWorkoutPlans: number;
+  totalDietPlans: number;
+  plansToday: number;
+  plansThisWeek: number;
+  contactLeads: number;
+  unreadLeads: number;
+  newsletterSubscribers: number;
+  totalBlogs: number;
+  publishedBlogs: number;
+  totalWorkoutTemplates: number;
+  totalDietTemplates: number;
+}
+
+export interface AdminUser {
+  id: string;
+  /** @nullable */
+  fullName?: string | null;
+  /** @nullable */
+  goal?: string | null;
+  /** @nullable */
+  activityLevel?: string | null;
+  /** @nullable */
+  workoutExperience?: string | null;
+  /** @nullable */
+  onboardingCompleted?: boolean | null;
+  isAdmin: boolean;
+  isSuspended: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ContactSubmission {
+  id: string;
+  name: string;
+  email: string;
+  /** @nullable */
+  subject?: string | null;
+  message: string;
+  type: string;
+  isRead: boolean;
+  createdAt: string;
+}
+
+export interface NewsletterSubscriber {
+  id: string;
+  email: string;
+  /** @nullable */
+  name?: string | null;
+  active: boolean;
+  createdAt: string;
+}
+
+export interface WorkoutTemplate {
+  id: string;
+  title: string;
+  /** @nullable */
+  description?: string | null;
+  goal: string;
+  experience: string;
+  split: string;
+  daysPerWeek: number;
+  location: string;
+  plan: WorkoutPlanData;
+  createdBy: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface WorkoutTemplateInput {
+  title: string;
+  /** @nullable */
+  description?: string | null;
+  goal: string;
+  experience: string;
+  split: string;
+  daysPerWeek: number;
+  location: string;
+  plan: WorkoutPlanData;
+}
+
+export interface DietTemplate {
+  id: string;
+  title: string;
+  /** @nullable */
+  description?: string | null;
+  cuisine: string;
+  calorieTarget: number;
+  dietStyle: string;
+  /** @nullable */
+  allergies?: string | null;
+  plan: DietPlanData;
+  createdBy: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface DietTemplateInput {
+  title: string;
+  /** @nullable */
+  description?: string | null;
+  cuisine: string;
+  calorieTarget: number;
+  dietStyle: string;
+  /** @nullable */
+  allergies?: string | null;
+  plan: DietPlanData;
+}
+
+export interface Blog {
+  id: string;
+  title: string;
+  slug: string;
+  content: string;
+  /** @nullable */
+  excerpt?: string | null;
+  published: boolean;
+  authorId: string;
+  /** @nullable */
+  coverImageUrl?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface BlogInput {
+  title: string;
+  slug: string;
+  content: string;
+  /** @nullable */
+  excerpt?: string | null;
+  published: boolean;
+  /** @nullable */
+  coverImageUrl?: string | null;
+}
+
+export interface SystemSetting {
+  key: string;
+  value: string;
+}
+
 export type ListProgressLogsParams = {
 from?: string;
 to?: string;
 limit?: number;
+};
+
+export type ListBlogsParams = {
+publishedOnly?: boolean;
 };
 
