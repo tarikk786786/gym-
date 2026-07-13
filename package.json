@@ -12,6 +12,10 @@
   "private": true,
   "dependencies": {
     "@replit/connectors-sdk": "^0.4.1",
+    "fontkit": "^2.0.4",
+    "linebreak": "^1.1.0",
+    "pdfkit": "^0.19.1",
+    "restructure": "^3.0.2",
     "serverless-http": "^4.0.0"
   },
   "devDependencies": {

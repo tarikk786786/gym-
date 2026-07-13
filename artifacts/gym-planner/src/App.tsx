@@ -51,7 +51,20 @@ function stripBase(path: string): string {
     : path;
 }
 
-if (!clerkPubKey) throw new Error('Missing VITE_CLERK_PUBLISHABLE_KEY');
+if (!clerkPubKey) {
+  // Show a helpful error instead of a black screen so missing env vars are obvious.
+  const root = document.getElementById("root");
+  if (root) {
+    root.style.cssText =
+      "display:flex;height:100vh;align-items:center;justify-content:center;" +
+      "background:#0A0A0A;color:#fff;font-family:Inter,sans-serif;flex-direction:column;gap:16px;padding:24px;text-align:center";
+    root.innerHTML =
+      '<div style="font-size:48px">⚙️</div>' +
+      '<h1 style="color:#FFD700;margin:0;font-size:1.5rem">Configuration Required</h1>' +
+      '<p style="color:#9CA3AF;margin:0;max-width:440px">Set <code style="background:#1A1A1A;padding:2px 6px;border-radius:4px;color:#FFD700">VITE_CLERK_PUBLISHABLE_KEY</code> in your Netlify site → Environment variables, then redeploy.</p>';
+  }
+  throw new Error("Missing VITE_CLERK_PUBLISHABLE_KEY — set this env var in Netlify and redeploy.");
+}
 
 const clerkAppearance = {
   theme: shadcn,
