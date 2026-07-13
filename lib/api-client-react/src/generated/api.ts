@@ -31,6 +31,7 @@ import type {
   ListBlogsParams,
   ListProgressLogsParams,
   NewsletterInput,
+  PlanInput,
   PlansListResponse,
   PrRecord,
   PrRecordInput,
@@ -1438,4 +1439,75 @@ export function useGetBlogBySlug<TData = Awaited<ReturnType<typeof getBlogBySlug
 
 
 
+
+export const getGeneratePlanUrl = () => {
+
+
+
+
+  return `/api/plan/generate`
+}
+
+/**
+ * @summary Generate AI fitness plan PDF
+ */
+export const generatePlan = async (planInput: PlanInput, options?: RequestInit): Promise<Blob> => {
+
+  return customFetch<Blob>(getGeneratePlanUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(planInput)
+  }
+);}
+
+
+
+
+
+export const getGeneratePlanMutationOptions = <TError = ErrorType<ErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof generatePlan>>, TError,{data: BodyType<PlanInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof generatePlan>>, TError,{data: BodyType<PlanInput>}, TContext> => {
+
+const mutationKey = ['generatePlan'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof generatePlan>>, {data: BodyType<PlanInput>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  generatePlan(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type GeneratePlanMutationResult = NonNullable<Awaited<ReturnType<typeof generatePlan>>>
+    export type GeneratePlanMutationBody = BodyType<PlanInput>
+    export type GeneratePlanMutationError = ErrorType<ErrorResponse>
+
+    /**
+ * @summary Generate AI fitness plan PDF
+ */
+export const useGeneratePlan = <TError = ErrorType<ErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof generatePlan>>, TError,{data: BodyType<PlanInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof generatePlan>>,
+        TError,
+        {data: BodyType<PlanInput>},
+        TContext
+      > => {
+      return useMutation(getGeneratePlanMutationOptions(options));
+    }
 

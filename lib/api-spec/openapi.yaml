@@ -14,6 +14,8 @@ tags:
   - name: workout
   - name: diet
   - name: plans
+  - name: plan
+    description: AI fitness plan generation (PDF)
 paths:
   /healthz:
     get:
@@ -490,6 +492,38 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+  # ── AI PDF Plan ───────────────────────────────────────────────────────────
+  /plan/generate:
+    post:
+      operationId: generatePlan
+      tags: [plan]
+      summary: Generate AI fitness plan PDF
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlanInput'
+      responses:
+        '200':
+          description: PDF file
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Generation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
     HealthStatus:
@@ -1350,3 +1384,67 @@ components:
         value:
           type: string
       required: [key, value]
+    PlanInput:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+        age:
+          type: integer
+          minimum: 10
+          maximum: 100
+        gender:
+          type: string
+          enum: [male, female, other]
+        heightCm:
+          type: number
+          minimum: 50
+          maximum: 260
+        weightKg:
+          type: number
+          minimum: 20
+          maximum: 350
+        bodyFatPercent:
+          type: ['number', 'null']
+        targetWeightKg:
+          type: ['number', 'null']
+        timeframeWeeks:
+          type: ['integer', 'null']
+        goal:
+          type: string
+          enum: [weight_loss, muscle_gain, maintain, recomposition, strength, endurance]
+        activityLevel:
+          type: string
+          enum: [sedentary, light, moderate, active, very_active]
+        sleepHours:
+          type: ['number', 'null']
+        stressLevel:
+          type: ['integer', 'null']
+        jobType:
+          type: ['string', 'null']
+        experience:
+          type: string
+          enum: [beginner, intermediate, advanced]
+        workoutLocation:
+          type: string
+          enum: [gym, home, both]
+        daysPerWeek:
+          type: integer
+          minimum: 2
+          maximum: 7
+        preferredWorkoutTime:
+          type: ['string', 'null']
+        equipment:
+          type: ['string', 'null']
+        dietStyle:
+          type: string
+          enum: [any, high_protein, vegetarian, vegan, keto, paleo, mediterranean]
+        foodPreferences:
+          type: ['string', 'null']
+        injuriesOrAllergies:
+          type: ['string', 'null']
+        medicalConditions:
+          type: ['string', 'null']
+      required: [name, age, gender, heightCm, weightKg, goal, activityLevel, experience, workoutLocation, daysPerWeek, dietStyle]
+

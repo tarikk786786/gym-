@@ -567,3 +567,49 @@ export const GetBlogBySlugResponse = zod.object({
 })
 
 
+/**
+ * @summary Generate AI fitness plan PDF
+ */
+
+export const generatePlanBodyAgeMin = 10;
+export const generatePlanBodyAgeMax = 100;
+
+export const generatePlanBodyHeightCmMin = 50;
+export const generatePlanBodyHeightCmMax = 260;
+
+export const generatePlanBodyWeightKgMin = 20;
+export const generatePlanBodyWeightKgMax = 350;
+
+export const generatePlanBodyDaysPerWeekMin = 2;
+export const generatePlanBodyDaysPerWeekMax = 7;
+
+
+
+export const GeneratePlanBody = zod.object({
+  "name": zod.string().min(1),
+  "age": zod.number().min(generatePlanBodyAgeMin).max(generatePlanBodyAgeMax),
+  "gender": zod.enum(['male', 'female', 'other']),
+  "heightCm": zod.number().min(generatePlanBodyHeightCmMin).max(generatePlanBodyHeightCmMax),
+  "weightKg": zod.number().min(generatePlanBodyWeightKgMin).max(generatePlanBodyWeightKgMax),
+  "bodyFatPercent": zod.number().nullish(),
+  "targetWeightKg": zod.number().nullish(),
+  "timeframeWeeks": zod.number().nullish(),
+  "goal": zod.enum(['weight_loss', 'muscle_gain', 'maintain', 'recomposition', 'strength', 'endurance']),
+  "activityLevel": zod.enum(['sedentary', 'light', 'moderate', 'active', 'very_active']),
+  "sleepHours": zod.number().nullish(),
+  "stressLevel": zod.number().nullish(),
+  "jobType": zod.string().nullish(),
+  "experience": zod.enum(['beginner', 'intermediate', 'advanced']),
+  "workoutLocation": zod.enum(['gym', 'home', 'both']),
+  "daysPerWeek": zod.number().min(generatePlanBodyDaysPerWeekMin).max(generatePlanBodyDaysPerWeekMax),
+  "preferredWorkoutTime": zod.string().nullish(),
+  "equipment": zod.string().nullish(),
+  "dietStyle": zod.enum(['any', 'high_protein', 'vegetarian', 'vegan', 'keto', 'paleo', 'mediterranean']),
+  "foodPreferences": zod.string().nullish(),
+  "injuriesOrAllergies": zod.string().nullish(),
+  "medicalConditions": zod.string().nullish()
+})
+
+export const GeneratePlanResponse = zod.unknown()
+
+

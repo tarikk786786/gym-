@@ -132,7 +132,7 @@ export function Navbar() {
                 <X className="w-6 h-6" />
               </button>
             </div>
-            
+
             <ul className="flex flex-col gap-6 text-xl font-display font-semibold">
               {navLinks.map((link) => (
                 <motion.li
@@ -151,7 +151,7 @@ export function Navbar() {
                 </motion.li>
               ))}
             </ul>
-            
+
             <div className="mt-auto pb-8 flex flex-col gap-4">
               {isSignedIn ? (
                 <>

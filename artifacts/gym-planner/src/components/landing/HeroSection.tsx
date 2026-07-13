@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { motion, useAnimation, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Dumbbell, Download, ArrowRight, Zap, Users, ShieldCheck, Activity } from "lucide-react";
 import heroBgPath from "@assets/generated_images/hero_bg.jpg";
 
 export function HeroSection() {
+  const [, navigate] = useLocation();
   const headline = "Your AI Personal Trainer. 24/7.";
   const words = headline.split(" ");
   
@@ -73,68 +74,51 @@ export function HeroSection() {
               className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1, duration: 0.5 }}
+              transition={{ delay: 1, duration: 0.6 }}
             >
-              <Button asChild size="lg" className="w-full sm:w-auto rounded-full h-14 px-8 bg-primary text-primary-foreground hover:bg-primary/90 text-lg font-bold gap-2">
-                <Link href="/sign-up">
-                  Generate AI Plan <ArrowRight className="w-5 h-5" />
-                </Link>
+              <Button
+                size="lg"
+                className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold px-8 h-14 text-lg gap-2 shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all"
+                onClick={() => navigate("/")}
+              >
+                <Dumbbell className="w-5 h-5" />
+                Get My Free Plan
+                <ArrowRight className="w-5 h-5 ml-1" />
               </Button>
-              <Button size="lg" variant="outline" className="w-full sm:w-auto rounded-full h-14 px-8 border-white/20 hover:bg-white/5 text-lg font-medium gap-2 glass-panel">
-                <Download className="w-5 h-5" /> Download PDF Sample
+              <Button
+                variant="outline"
+                size="lg"
+                className="rounded-full px-8 h-14 text-lg gap-2 border-border/50 hover:border-primary/50"
+                onClick={() => navigate("/")}
+              >
+                <Download className="w-5 h-5" />
+                Get Free PDF Plan
               </Button>
             </motion.div>
-          </div>
-          
-          <div className="flex-1 w-full max-w-lg lg:max-w-none relative flex justify-center perspective-1000">
-            <motion.div
-              className="w-full aspect-square relative z-10"
-              initial={{ opacity: 0, scale: 0.8, rotateY: -30 }}
-              animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-              transition={{ delay: 0.5, duration: 1.5, type: "spring" }}
-              style={{ transformStyle: "preserve-3d" }}
+
+            <motion.div 
+              className="flex flex-wrap items-center gap-6 mt-8 justify-center lg:justify-start"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.2 }}
             >
-              {/* Abstract 3D floating visual - CSS only */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <motion.div 
-                  className="w-48 h-48 md:w-64 md:h-64 rounded-full border border-primary/40 absolute"
-                  animate={{ rotate: 360, scale: [1, 1.05, 1] }}
-                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                />
-                <motion.div 
-                  className="w-56 h-56 md:w-72 md:h-72 rounded-full border border-primary/20 absolute"
-                  animate={{ rotate: -360, scale: [1, 1.1, 1] }}
-                  transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-                />
-                <motion.div 
-                  className="w-32 h-64 bg-gradient-to-b from-primary/80 to-primary/20 rounded-full blur-xl absolute"
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                />
-                <motion.div
-                  className="relative z-10 w-full h-full flex items-center justify-center text-primary drop-shadow-[0_0_30px_rgba(255,215,0,0.5)]"
-                  animate={{ y: [-15, 15, -15] }}
-                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                >
-                  {/* High quality SVG Dumbbell representation */}
-                  <svg width="240" height="240" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="w-32 h-32 md:w-48 md:h-48 text-primary">
-                    <path d="M14.4 14.4 9.6 9.6" />
-                    <path d="M18.657 21.485a2 2 0 1 1-2.829-2.828l-1.767 1.768a2 2 0 1 1-2.829-2.829l6.364-6.364a2 2 0 1 1 2.829 2.829l-1.768 1.767a2 2 0 1 1 2.828 2.829z" />
-                    <path d="m21.5 21.5-1.4-1.4" />
-                    <path d="M3.9 3.9 2.5 2.5" />
-                    <path d="M6.404 2.768a2 2 0 1 1 2.829 2.829l1.768-1.767a2 2 0 1 1 2.828 2.828L7.465 13.023a2 2 0 1 1-2.828-2.829l1.768-1.768a2 2 0 1 1-2.829-2.828z" />
-                  </svg>
-                </motion.div>
-              </div>
+              {[
+                { icon: ShieldCheck, text: "No credit card" },
+                { icon: Zap, text: "Instant PDF" },
+                { icon: Users, text: "12,400+ plans generated" },
+              ].map(({ icon: Icon, text }) => (
+                <div key={text} className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Icon className="w-4 h-4 text-primary" />
+                  {text}
+                </div>
+              ))}
             </motion.div>
           </div>
-        </div>
-        
-        {/* Stats Row */}
-        <div className="mt-20 md:mt-32 pt-10 border-t border-border/50">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-12">
-            {stats.map((stat, index) => (
-              <StatCounter key={index} stat={stat} index={index} />
+
+          {/* Stats grid */}
+          <div className="grid grid-cols-2 gap-4 w-full max-w-sm lg:max-w-xs flex-shrink-0">
+            {stats.map(({ label, value, prefix, suffix, icon: Icon }, i) => (
+              <StatCard key={label} label={label} value={value} prefix={prefix} suffix={suffix} Icon={Icon} delay={i * 0.15} />
             ))}
           </div>
         </div>
@@ -143,52 +127,41 @@ export function HeroSection() {
   );
 }
 
-function StatCounter({ stat, index }: { stat: any, index: number }) {
-  const [count, setCount] = useState(0);
+function StatCard({ label, value, prefix, suffix, Icon, delay }: {
+  label: string; value: number; prefix: string; suffix: string;
+  Icon: React.ComponentType<{ className?: string }>; delay: number;
+}) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
-  
+  const isInView = useInView(ref, { once: true });
+  const controls = useAnimation();
+  const [count, setCount] = useState(0);
+
   useEffect(() => {
-    if (!inView) return;
-    const duration = 2000;
-    const steps = 60;
-    const stepTime = duration / steps;
-    let currentStep = 0;
-
+    if (!isInView) return;
+    controls.start({ opacity: 1, y: 0 });
+    let start = 0;
+    const step = value / 60;
     const timer = setInterval(() => {
-      currentStep++;
-      const progress = currentStep / steps;
-      const easeProgress = 1 - Math.pow(1 - progress, 4);
-      setCount(Math.floor(easeProgress * stat.value));
-
-      if (currentStep >= steps) {
-        setCount(stat.value);
-        clearInterval(timer);
-      }
-    }, stepTime);
-
+      start += step;
+      if (start >= value) { setCount(value); clearInterval(timer); }
+      else setCount(Math.floor(start));
+    }, 16);
     return () => clearInterval(timer);
-  }, [inView, stat.value]);
-
-  const Icon = stat.icon;
+  }, [isInView, value, controls]);
 
   return (
-    <motion.div 
+    <motion.div
       ref={ref}
-      className="flex flex-col items-center md:items-start space-y-2"
-      initial={{ opacity: 0, y: 20 }}
-      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-      transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
+      initial={{ opacity: 0, y: 30 }}
+      animate={controls}
+      transition={{ delay, duration: 0.5 }}
+      className="glass-panel rounded-2xl p-4 text-center border border-primary/10"
     >
-      <div className="flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary mb-1">
-        <Icon className="w-5 h-5" />
+      <Icon className="w-6 h-6 text-primary mx-auto mb-2" />
+      <div className="text-2xl font-bold font-display">
+        {prefix}{count.toLocaleString()}{suffix}
       </div>
-      <div className="text-3xl md:text-4xl font-display font-bold text-foreground">
-        {stat.prefix}{count.toLocaleString()}{stat.suffix}
-      </div>
-      <div className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
-        {stat.label}
-      </div>
+      <div className="text-xs text-muted-foreground mt-1">{label}</div>
     </motion.div>
   );
 }
@@ -197,7 +170,6 @@ function ParticleSystem() {
   const [particles, setParticles] = useState<Array<{x: number, y: number, size: number, duration: number, delay: number, color: string}>>([]);
   
   useEffect(() => {
-    // Generate particles only on client
     const newParticles = Array.from({ length: 40 }).map(() => ({
       x: Math.random() * 100,
       y: Math.random() * 100,
@@ -215,24 +187,9 @@ function ParticleSystem() {
         <motion.div
           key={i}
           className={`absolute rounded-full ${p.color}`}
-          style={{
-            left: `${p.x}%`,
-            top: `${p.y}%`,
-            width: p.size,
-            height: p.size,
-            opacity: 0.2
-          }}
-          animate={{
-            y: ["0%", "-100%"],
-            x: ["0%", `${Math.random() * 20 - 10}%`],
-            opacity: [0, 0.5, 0]
-          }}
-          transition={{
-            duration: p.duration,
-            repeat: Infinity,
-            delay: p.delay,
-            ease: "linear"
-          }}
+          style={{ left: `${p.x}%`, top: `${p.y}%`, width: p.size, height: p.size, opacity: 0.2 }}
+          animate={{ y: ["0%", "-100%"], x: ["0%", `${Math.random() * 20 - 10}%`], opacity: [0, 0.5, 0] }}
+          transition={{ duration: p.duration, repeat: Infinity, delay: p.delay, ease: "linear" }}
         />
       ))}
     </div>

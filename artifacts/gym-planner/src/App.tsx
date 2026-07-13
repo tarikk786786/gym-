@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { ClerkProvider, SignIn, SignUp, Show, useClerk, useUser } from '@clerk/react';
+import { ClerkProvider, Show, useClerk, useUser } from '@clerk/react';
 import { publishableKeyFromHost } from '@clerk/react/internal';
 import { shadcn } from '@clerk/themes';
 import { Switch, Route, Redirect, useLocation, Router as WouterRouter } from 'wouter';
@@ -8,7 +8,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import NotFound from '@/pages/not-found';
-import LandingPage from '@/pages/LandingPage';
+import PlannerPage from '@/pages/PlannerPage';
 import SignInPage from '@/pages/SignInPage';
 import SignUpPage from '@/pages/SignUpPage';
 import OnboardingPage from '@/pages/OnboardingPage';
@@ -118,6 +118,7 @@ function ClerkQueryClientCacheInvalidator() {
   return null;
 }
 
+// At `/`, signed-in users go to /dashboard; signed-out users see the planner.
 function HomeRedirect() {
   return (
     <>
@@ -125,12 +126,13 @@ function HomeRedirect() {
         <Redirect to="/dashboard" />
       </Show>
       <Show when="signed-out">
-        <LandingPage />
+        <PlannerPage />
       </Show>
     </>
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ProtectedRoute({ component: Component }: { component: React.ComponentType<any> }) {
   return (
     <>
@@ -162,7 +164,6 @@ function ProtectedDashboardRoute() {
     );
   }
 
-  // No profile yet (404) or onboarding not complete → send to onboarding
   if (isError || !profile || profile.onboardingCompleted !== true) {
     return <Redirect to="/onboarding" />;
   }
@@ -188,12 +189,10 @@ function ProtectedOnboardingRoute() {
     );
   }
 
-  // Already completed onboarding → go to dashboard
   if (profile?.onboardingCompleted === true) {
     return <Redirect to="/dashboard" />;
   }
 
-  // No profile (404) or onboardingCompleted falsy → show wizard
   return <OnboardingPage />;
 }
 
@@ -214,10 +213,11 @@ function ClerkProviderWithRoutes() {
         <ClerkQueryClientCacheInvalidator />
         <TooltipProvider>
           <Switch>
+            {/* Root: planner for signed-out users, dashboard redirect for signed-in */}
             <Route path="/" component={HomeRedirect} />
             <Route path="/sign-in/*?" component={SignInPage} />
             <Route path="/sign-up/*?" component={SignUpPage} />
-            
+
             {/* Protected Routes */}
             <Route path="/onboarding">
               <Show when="signed-in">
@@ -227,7 +227,7 @@ function ClerkProviderWithRoutes() {
                 <Redirect to="/sign-in" />
               </Show>
             </Route>
-            
+
             <Route path="/dashboard">
               <Show when="signed-in">
                 <ProtectedDashboardRoute />
@@ -236,7 +236,7 @@ function ClerkProviderWithRoutes() {
                 <Redirect to="/sign-in" />
               </Show>
             </Route>
-            
+
             <Route path="/profile">
               <ProtectedRoute component={ProfilePage} />
             </Route>

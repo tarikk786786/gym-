@@ -9,6 +9,7 @@ import coachRouter from "./coach";
 import reportsRouter from "./reports";
 import adminRouter from "./admin";
 import blogsRouter from "./blogs";
+import planRouter from "./plan";
 
 const router: IRouter = Router();
 
@@ -22,5 +23,6 @@ router.use(coachRouter);
 router.use(reportsRouter);
 router.use(adminRouter);
 router.use(blogsRouter);
+router.use(planRouter);
 
 export default router;

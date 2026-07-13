@@ -602,6 +602,122 @@ export interface SystemSetting {
   value: string;
 }
 
+export type PlanInputGender = typeof PlanInputGender[keyof typeof PlanInputGender];
+
+
+export const PlanInputGender = {
+  male: 'male',
+  female: 'female',
+  other: 'other',
+} as const;
+
+export type PlanInputGoal = typeof PlanInputGoal[keyof typeof PlanInputGoal];
+
+
+export const PlanInputGoal = {
+  weight_loss: 'weight_loss',
+  muscle_gain: 'muscle_gain',
+  maintain: 'maintain',
+  recomposition: 'recomposition',
+  strength: 'strength',
+  endurance: 'endurance',
+} as const;
+
+export type PlanInputActivityLevel = typeof PlanInputActivityLevel[keyof typeof PlanInputActivityLevel];
+
+
+export const PlanInputActivityLevel = {
+  sedentary: 'sedentary',
+  light: 'light',
+  moderate: 'moderate',
+  active: 'active',
+  very_active: 'very_active',
+} as const;
+
+export type PlanInputExperience = typeof PlanInputExperience[keyof typeof PlanInputExperience];
+
+
+export const PlanInputExperience = {
+  beginner: 'beginner',
+  intermediate: 'intermediate',
+  advanced: 'advanced',
+} as const;
+
+export type PlanInputWorkoutLocation = typeof PlanInputWorkoutLocation[keyof typeof PlanInputWorkoutLocation];
+
+
+export const PlanInputWorkoutLocation = {
+  gym: 'gym',
+  home: 'home',
+  both: 'both',
+} as const;
+
+export type PlanInputDietStyle = typeof PlanInputDietStyle[keyof typeof PlanInputDietStyle];
+
+
+export const PlanInputDietStyle = {
+  any: 'any',
+  high_protein: 'high_protein',
+  vegetarian: 'vegetarian',
+  vegan: 'vegan',
+  keto: 'keto',
+  paleo: 'paleo',
+  mediterranean: 'mediterranean',
+} as const;
+
+export interface PlanInput {
+  /** @minLength 1 */
+  name: string;
+  /**
+     * @minimum 10
+     * @maximum 100
+     */
+  age: number;
+  gender: PlanInputGender;
+  /**
+     * @minimum 50
+     * @maximum 260
+     */
+  heightCm: number;
+  /**
+     * @minimum 20
+     * @maximum 350
+     */
+  weightKg: number;
+  /** @nullable */
+  bodyFatPercent?: number | null;
+  /** @nullable */
+  targetWeightKg?: number | null;
+  /** @nullable */
+  timeframeWeeks?: number | null;
+  goal: PlanInputGoal;
+  activityLevel: PlanInputActivityLevel;
+  /** @nullable */
+  sleepHours?: number | null;
+  /** @nullable */
+  stressLevel?: number | null;
+  /** @nullable */
+  jobType?: string | null;
+  experience: PlanInputExperience;
+  workoutLocation: PlanInputWorkoutLocation;
+  /**
+     * @minimum 2
+     * @maximum 7
+     */
+  daysPerWeek: number;
+  /** @nullable */
+  preferredWorkoutTime?: string | null;
+  /** @nullable */
+  equipment?: string | null;
+  dietStyle: PlanInputDietStyle;
+  /** @nullable */
+  foodPreferences?: string | null;
+  /** @nullable */
+  injuriesOrAllergies?: string | null;
+  /** @nullable */
+  medicalConditions?: string | null;
+}
+
 export type ListProgressLogsParams = {
 from?: string;
 to?: string;
