@@ -39,14 +39,10 @@
   # AI plan generation + PDF export can exceed the default 10 s limit.
   timeout = 26
 
-  # pdfkit and its runtime deps use dynamic require() to load font files from
-  # their own package directories — keep them as real node_modules, not bundled.
-  # They are hoisted to the workspace root so Netlify finds them at deploy time.
-  external_node_modules = [
-    "pdfkit", "fontkit", "linebreak", "restructure",
-    "@noble/ciphers", "@noble/hashes", "js-md5", "png-js",
-    "pg", "pg-native",
-  ]
+  # Only exclude packages that cannot be bundled by esbuild (native binaries).
+  # pg falls back to pure-JS automatically when pg-native is absent at runtime.
+  # pdfkit is bundled safely because we only use built-in PDF fonts (Helvetica).
+  external_node_modules = ["pg-native"]
 
 # ─── Routing ──────────────────────────────────────────────────────────────────
 
