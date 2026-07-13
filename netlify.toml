@@ -15,14 +15,14 @@
   # dashboard base dir is set to artifacts/gym-planner, the publish path and
   # build commands are resolved from there, producing wrong nested paths.
   base      = "."
-  command   = "pnpm install --no-frozen-lockfile && pnpm --filter @workspace/api-server run build && pnpm --filter @workspace/gym-planner run build"
+  command   = "corepack enable 2>/dev/null; pnpm install --no-frozen-lockfile && pnpm --filter @workspace/api-server run build && pnpm --filter @workspace/gym-planner run build"
   publish   = "artifacts/gym-planner/dist/public"
   functions = "netlify/functions"
 
 [build.environment]
   # Node / pnpm versions
   NODE_VERSION = "20"
-  PNPM_VERSION = "10"
+  PNPM_VERSION = "10.26.1"
 
   # Required by vite.config.ts at startup (used only for dev-server binding;
   # ignored during production builds, but the guard runs regardless).
