@@ -12,7 +12,7 @@
 [build]
   # Install deps then compile only the frontend (workspace libs are TS-source,
   # resolved directly by Vite — no separate lib build step needed).
-  command   = "npm install -g pnpm@10 && pnpm install --no-frozen-lockfile && pnpm run netlify:build"
+  command   = "pnpm install --no-frozen-lockfile && pnpm --filter @workspace/api-server run build && pnpm --filter @workspace/gym-planner run build"
   publish   = "artifacts/gym-planner/dist/public"
   functions = "netlify/functions"
 
@@ -27,8 +27,10 @@
   PORT      = "8888"
 
 # ─── Functions ────────────────────────────────────────────────────────────────
+# The api function imports a pre-built ESM bundle (artifacts/api-server/dist/handler.mjs)
+# produced during the build step.  Netlify only needs to bundle serverless-http
+# on top of it — no TypeScript resolution or workspace traversal needed.
 [functions]
-  # Let Netlify's esbuild handle TypeScript and workspace-package resolution.
   node_bundler = "esbuild"
 
 [functions."api"]
@@ -36,10 +38,18 @@
   # Starter plan: 10 s max. Pro plan: 26 s max.
   timeout = 26
 
-  # pdfkit (and its fontkit sub-dependency) use dynamic require() to load font
-  # data from their own package directory at runtime. Bundling them breaks that
-  # path resolution — keep them as real node_modules instead.
-  external_node_modules = ["pdfkit", "fontkit", "linebreak", "restructure"]
+  # pdfkit and its sub-deps use dynamic require() to load font data from their
+  # own package directory — keep them as real node_modules instead of bundling.
+  external_node_modules = ["pdfkit", "fontkit", "linebreak", "restructure", "pg", "pg-native"]
+
+  # Include the pre-built Express handler and all pdfkit font assets.
+  included_files = [
+    "artifacts/api-server/dist/handler.mjs",
+    "node_modules/pdfkit/**",
+    "node_modules/fontkit/**",
+    "node_modules/linebreak/**",
+    "node_modules/restructure/**",
+  ]
 
 # ─── Routing ──────────────────────────────────────────────────────────────────
 
