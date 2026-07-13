@@ -10,8 +10,11 @@
 # ─────────────────────────────────────────────────────────────────────────────
 
 [build]
-  # Install deps then compile only the frontend (workspace libs are TS-source,
-  # resolved directly by Vite — no separate lib build step needed).
+  # Force the build to always run from the repo root, regardless of what the
+  # Netlify dashboard has set as the base directory.  Without this, if the
+  # dashboard base dir is set to artifacts/gym-planner, the publish path and
+  # build commands are resolved from there, producing wrong nested paths.
+  base      = "."
   command   = "pnpm install --no-frozen-lockfile && pnpm --filter @workspace/api-server run build && pnpm --filter @workspace/gym-planner run build"
   publish   = "artifacts/gym-planner/dist/public"
   functions = "netlify/functions"
