@@ -34,6 +34,7 @@ import AdminTemplates from '@/pages/admin/AdminTemplates';
 import AdminBlogs from '@/pages/admin/AdminBlogs';
 import AdminSettings from '@/pages/admin/AdminSettings';
 import BlogPostPage from '@/pages/BlogPostPage';
+import BlogListPage from '@/pages/BlogListPage';
 
 const queryClient = new QueryClient();
 
@@ -312,6 +313,7 @@ function ClerkProviderWithRoutes() {
             </Route>
 
             {/* Public Blog */}
+            <Route path="/blog" component={BlogListPage} />
             <Route path="/blog/:slug" component={BlogPostPage} />
 
             <Route component={NotFound} />
