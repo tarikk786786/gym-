@@ -50,7 +50,7 @@ export function CoachWidget() {
 
       {/* Mini Chat Panel */}
       {isOpen && (
-        <div className="fixed bottom-6 right-6 w-[340px] h-[500px] max-h-[80vh] glass-panel rounded-2xl flex flex-col z-50 overflow-hidden shadow-2xl border border-white/10 animate-in slide-in-from-bottom-10 fade-in duration-300">
+        <div className="fixed bottom-6 right-4 sm:right-6 w-[calc(100vw-2rem)] sm:w-[340px] h-[480px] max-h-[calc(100dvh-8rem)] glass-panel rounded-2xl flex flex-col z-50 overflow-hidden shadow-2xl border border-white/10 animate-in slide-in-from-bottom-10 fade-in duration-300">
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 bg-black/40 border-b border-white/10">
             <div className="flex items-center gap-2">

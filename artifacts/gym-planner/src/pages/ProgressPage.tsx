@@ -83,33 +83,33 @@ export default function ProgressPage() {
     <div className="min-h-[100dvh] bg-background flex flex-col relative pb-20 md:pb-0">
       <Navbar />
 
-      <main className="flex-1 pt-24 pb-16 px-4 md:px-6">
+      <main className="flex-1 pt-20 md:pt-24 pb-28 md:pb-16 px-4 md:px-6">
         <div className="container mx-auto max-w-7xl">
           
           {/* Header & Stats Bar */}
-          <div className="mb-10">
-            <h1 className="text-4xl md:text-5xl font-display font-bold text-white mb-8">
+          <div className="mb-6 md:mb-10">
+            <h1 className="text-2xl md:text-5xl font-display font-bold text-white mb-4 md:mb-8">
               Progress <span className="text-primary text-glow">Tracker</span>
             </h1>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="glass-panel p-5 rounded-2xl border-l-4 border-l-primary flex flex-col gap-1">
-                <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-2"><Flame className="w-4 h-4 text-orange-500" /> Streak</span>
-                <span className="text-3xl font-display font-bold text-white">{summary?.streak || 0} <span className="text-sm text-gray-500 font-normal">days</span></span>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+              <div className="glass-panel p-4 rounded-2xl border-l-4 border-l-primary flex flex-col gap-0.5">
+                <span className="text-[10px] md:text-xs font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-1"><Flame className="w-3 h-3 text-orange-500" /> Streak</span>
+                <span className="text-2xl md:text-3xl font-display font-bold text-white">{summary?.streak || 0} <span className="text-xs text-gray-500 font-normal">days</span></span>
               </div>
-              <div className="glass-panel p-5 rounded-2xl flex flex-col gap-1">
-                <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-2"><Activity className="w-4 h-4 text-blue-400" /> Total Logs</span>
-                <span className="text-3xl font-display font-bold text-white">{summary?.totalLogs || 0}</span>
+              <div className="glass-panel p-4 rounded-2xl flex flex-col gap-0.5">
+                <span className="text-[10px] md:text-xs font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-1"><Activity className="w-3 h-3 text-blue-400" /> Total Logs</span>
+                <span className="text-2xl md:text-3xl font-display font-bold text-white">{summary?.totalLogs || 0}</span>
               </div>
-              <div className="glass-panel p-5 rounded-2xl flex flex-col gap-1">
-                <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-2"><Target className="w-4 h-4 text-green-400" /> Cur. Weight</span>
-                <span className="text-3xl font-display font-bold text-white">{recentLogs.find(l => l.weightKg)?.weightKg || '--'} <span className="text-sm text-gray-500 font-normal">kg</span></span>
+              <div className="glass-panel p-4 rounded-2xl flex flex-col gap-0.5">
+                <span className="text-[10px] md:text-xs font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-1"><Target className="w-3 h-3 text-green-400" /> Weight</span>
+                <span className="text-2xl md:text-3xl font-display font-bold text-white">{recentLogs.find(l => l.weightKg)?.weightKg || '--'} <span className="text-xs text-gray-500 font-normal">kg</span></span>
               </div>
-              <div className="glass-panel p-5 rounded-2xl flex flex-col gap-1">
-                <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-2"><Calendar className="w-4 h-4 text-purple-400" /> Last Workout</span>
-                <span className="text-xl font-bold text-white mt-1">
+              <div className="glass-panel p-4 rounded-2xl flex flex-col gap-0.5">
+                <span className="text-[10px] md:text-xs font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-1"><Calendar className="w-3 h-3 text-purple-400" /> Last Workout</span>
+                <span className="text-base md:text-xl font-bold text-white mt-0.5">
                   {recentLogs.find(l => l.workoutCompleted)?.logDate 
-                    ? new Date(recentLogs.find(l => l.workoutCompleted)!.logDate).toLocaleDateString() 
+                    ? new Date(recentLogs.find(l => l.workoutCompleted)!.logDate).toLocaleDateString("en-US", { month: "short", day: "numeric" })
                     : 'None yet'}
                 </span>
               </div>
@@ -127,7 +127,7 @@ export default function ProgressPage() {
                 <div className="h-[250px] w-full">
                   {weightData.length > 0 ? (
                     <ResponsiveContainer width="100%" height="100%">
-                      <LineChart data={weightData} margin={{ top: 5, right: 5, left: -20, bottom: 5 }}>
+                      <LineChart data={weightData} margin={{ top: 5, right: 10, left: -10, bottom: 5 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" vertical={false} />
                         <XAxis dataKey="date" stroke="#888" fontSize={12} tickLine={false} axisLine={false} />
                         <YAxis stroke="#888" fontSize={12} tickLine={false} axisLine={false} domain={['dataMin - 2', 'dataMax + 2']} />
@@ -151,7 +151,7 @@ export default function ProgressPage() {
                 <div className="h-[250px] w-full">
                   {caloriesData.length > 0 ? (
                     <ResponsiveContainer width="100%" height="100%">
-                      <LineChart data={caloriesData} margin={{ top: 5, right: 5, left: -10, bottom: 5 }}>
+                      <LineChart data={caloriesData} margin={{ top: 5, right: 10, left: -10, bottom: 5 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" vertical={false} />
                         <XAxis dataKey="date" stroke="#888" fontSize={12} tickLine={false} axisLine={false} />
                         <YAxis stroke="#888" fontSize={12} tickLine={false} axisLine={false} />
@@ -186,7 +186,7 @@ export default function ProgressPage() {
                   <div className="h-[200px] w-full">
                     {bodyMetricsData.length > 0 ? (
                       <ResponsiveContainer width="100%" height="100%">
-                        <LineChart data={bodyMetricsData} margin={{ top: 5, right: 5, left: -20, bottom: 5 }}>
+                        <LineChart data={bodyMetricsData} margin={{ top: 5, right: 10, left: -10, bottom: 5 }}>
                           <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" vertical={false} />
                           <XAxis dataKey="date" stroke="#888" fontSize={12} tickLine={false} axisLine={false} />
                           <YAxis stroke="#888" fontSize={12} tickLine={false} axisLine={false} domain={['dataMin - 1', 'dataMax + 1']} />
@@ -315,10 +315,10 @@ export default function ProgressPage() {
         </div>
       </main>
 
-      {/* Floating Add Button */}
+      {/* Floating Add Button — above CoachWidget on mobile */}
       <Dialog open={isAddLogOpen} onOpenChange={setIsAddLogOpen}>
         <DialogTrigger asChild>
-          <button className="fixed bottom-6 right-6 md:bottom-10 md:right-10 w-16 h-16 bg-primary text-black rounded-full shadow-2xl hover:scale-105 transition-transform flex items-center justify-center z-40 border-4 border-black group">
+          <button className="fixed bottom-24 right-4 sm:bottom-24 sm:right-6 md:bottom-10 md:right-10 w-14 h-14 md:w-16 md:h-16 bg-primary text-black rounded-full shadow-2xl hover:scale-105 transition-transform flex items-center justify-center z-40 border-4 border-black group">
             <Plus className="w-8 h-8 group-hover:rotate-90 transition-transform duration-300" />
           </button>
         </DialogTrigger>

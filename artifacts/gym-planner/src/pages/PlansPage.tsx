@@ -38,26 +38,26 @@ export default function PlansPage() {
     <div className="min-h-[100dvh] bg-background flex flex-col">
       <Navbar />
       
-      <main className="flex-1 pt-24 pb-16 px-4 md:px-6">
+      <main className="flex-1 pt-20 md:pt-24 pb-28 md:pb-16 px-4 md:px-6">
         <div className="container mx-auto max-w-5xl">
-          <div className="mb-10">
-            <h1 className="text-4xl md:text-5xl font-display font-bold text-white mb-2">
+          <div className="mb-6 md:mb-10">
+            <h1 className="text-2xl md:text-5xl font-display font-bold text-white mb-1">
               My Plans
             </h1>
-            <p className="text-muted-foreground text-lg">Your generated fitness and nutrition protocols.</p>
+            <p className="text-muted-foreground text-sm md:text-lg">Your generated fitness and nutrition protocols.</p>
           </div>
 
           <Tabs defaultValue="workout" className="w-full">
-            <TabsList className="bg-transparent border-b border-white/10 w-full justify-start h-12 p-0 rounded-none mb-8">
+            <TabsList className="bg-transparent border-b border-white/10 w-full justify-start h-12 p-0 rounded-none mb-6 md:mb-8">
               <TabsTrigger 
                 value="workout" 
-                className="data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none h-full px-6 font-display text-lg tracking-wide text-gray-500"
+                className="data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none h-full px-4 md:px-6 font-display text-base md:text-lg tracking-wide text-gray-500"
               >
                 Workout Plans
               </TabsTrigger>
               <TabsTrigger 
                 value="diet" 
-                className="data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none h-full px-6 font-display text-lg tracking-wide text-gray-500"
+                className="data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none h-full px-4 md:px-6 font-display text-base md:text-lg tracking-wide text-gray-500"
               >
                 Diet Plans
               </TabsTrigger>

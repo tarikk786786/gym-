@@ -438,47 +438,237 @@ router.get(
       drawFooter(doc);
     }
 
-    // ── PAGE 5: Active Diet Plan ──────────────────────────────────────────────
+    // ── PAGE 5+: Active Diet Plan (full redesign) ────────────────────────────
     if (activeDiet) {
-      doc.addPage({ size: "A4", margin: 50 });
-      doc.rect(0, 0, doc.page.width, doc.page.height).fill(BLACK);
-      doc.rect(0, 0, doc.page.width, 8).fill(GOLD);
-      y = 30;
-      y = drawSection(doc, "ACTIVE DIET PLAN", y);
-      y += 8;
-
       const dplan = activeDiet.plan as any;
-      doc.font("Helvetica-Bold").fontSize(16).fillColor(WHITE).text(`${activeDiet.dietStyle} — ${activeDiet.cuisine} Cuisine`, 50, y);
-      y += 22;
-      doc.font("Helvetica-Bold").fontSize(12).fillColor(GOLD).text(`Daily Target: ${dplan.dailyCalorieTarget || activeDiet.calorieTarget} kcal`, 50, y);
+      const meals: any[] = dplan.meals || [];
+
+      function newDietPage() {
+        doc.addPage({ size: "A4", margin: 50 });
+        doc.rect(0, 0, doc.page.width, doc.page.height).fill(BLACK);
+        doc.rect(0, 0, doc.page.width, 6).fill(GOLD);          // top gold bar
+        doc.rect(0, 6, 4, doc.page.height - 6).fill(GOLD);     // left gold stripe
+        return 24;
+      }
+
+      y = newDietPage();
+
+      // ── HEADER ─────────────────────────────────────────────────────────────
+      doc.font("Helvetica").fontSize(8).fillColor(GOLD)
+        .text("PERSONALISED NUTRITION PROTOCOL", 50, y, { align: "center", width: doc.page.width - 100 });
+      y += 16;
+
+      doc.font("Helvetica-Bold").fontSize(22).fillColor(WHITE)
+        .text(`${activeDiet.dietStyle} Meal Plan`, 50, y, { align: "center", width: doc.page.width - 100 });
+      y += 14;
+
+      doc.font("Helvetica").fontSize(10).fillColor(MID_GRAY)
+        .text(`${activeDiet.cuisine} Cuisine`, 50, y, { align: "center", width: doc.page.width - 100 });
+      y += 24;
+
+      // ── STAT BADGES ────────────────────────────────────────────────────────
+      const calorieTarget = dplan.dailyCalorieTarget || activeDiet.calorieTarget;
+      const badges = [
+        { label: "DAILY CALORIES", value: calorieTarget ? `${calorieTarget} kcal` : "—" },
+        { label: "MEALS / DAY",    value: String(meals.length) },
+        { label: "DIET STYLE",     value: activeDiet.dietStyle },
+        { label: "CUISINE",        value: activeDiet.cuisine },
+      ];
+      const bw = (doc.page.width - 100 - 18) / 4;
+      let bx = 50;
+      for (const b of badges) {
+        doc.rect(bx, y, bw, 52).fill(DARK_GRAY);
+        doc.rect(bx, y, bw, 2).fill(GOLD);
+        doc.font("Helvetica").fontSize(6.5).fillColor(MID_GRAY)
+          .text(b.label, bx + 6, y + 9, { width: bw - 12 });
+        doc.font("Helvetica-Bold").fontSize(10).fillColor(WHITE)
+          .text(b.value, bx + 6, y + 22, { width: bw - 12 });
+        bx += bw + 6;
+      }
+      y += 64;
+
+      // ── MACRO BREAKDOWN ─────────────────────────────────────────────────────
+      if (dplan.macros) {
+        const m = dplan.macros as { proteinG: number; carbsG: number; fatG: number; fiberG?: number };
+        const kcalTotal = m.proteinG * 4 + m.carbsG * 4 + m.fatG * 9;
+
+        doc.rect(50, y, doc.page.width - 100, 1).fillColor("#2a2a2a").fill();
+        y += 12;
+
+        doc.font("Helvetica-Bold").fontSize(10).fillColor(GOLD).text("MACRO BREAKDOWN", 50, y);
+        y += 18;
+
+        const macroRows = [
+          { label: "Protein", grams: m.proteinG, kcal: m.proteinG * 4, color: "#22c55e" },
+          { label: "Carbohydrates", grams: m.carbsG, kcal: m.carbsG * 4, color: "#3b82f6" },
+          { label: "Fat", grams: m.fatG, kcal: m.fatG * 9, color: "#f97316" },
+          ...(m.fiberG ? [{ label: "Fiber", grams: m.fiberG, kcal: 0, color: "#a78bfa" }] : []),
+        ];
+
+        const barX = 185;
+        const barMaxW = doc.page.width - barX - 70;
+
+        for (const row of macroRows) {
+          const pct = kcalTotal > 0 ? Math.min(row.kcal / kcalTotal, 1) : 0;
+          doc.font("Helvetica-Bold").fontSize(9).fillColor(WHITE)
+            .text(row.label, 50, y, { width: 120 });
+          doc.font("Helvetica").fontSize(9).fillColor(MID_GRAY)
+            .text(`${row.grams}g`, 130, y, { width: 50 });
+          // bar bg
+          doc.rect(barX, y + 1, barMaxW, 9).fill("#1a1a1a");
+          // bar fill
+          if (pct > 0) doc.rect(barX, y + 1, barMaxW * pct, 9).fill(row.color);
+          // pct label
+          doc.font("Helvetica-Bold").fontSize(7.5).fillColor(row.color)
+            .text(`${Math.round(pct * 100)}%`, barX + barMaxW + 6, y + 1, { width: 34 });
+          y += 20;
+        }
+        y += 8;
+      }
+
+      // ── MEAL CARDS ──────────────────────────────────────────────────────────
+      doc.rect(50, y, doc.page.width - 100, 1).fillColor("#2a2a2a").fill();
+      y += 12;
+      doc.font("Helvetica-Bold").fontSize(10).fillColor(GOLD).text("DAILY MEAL SCHEDULE", 50, y);
       y += 18;
 
-      // Macros
-      if (dplan.macros) {
-        const m = dplan.macros;
-        doc.font("Helvetica").fontSize(10).fillColor(WHITE).text(`Protein: ${m.proteinG}g  |  Carbs: ${m.carbsG}g  |  Fat: ${m.fatG}g  |  Fiber: ${m.fiberG}g`, 50, y);
-        y += 18;
-      }
+      const mealAccents = ["#22c55e", "#3b82f6", "#f97316", "#a78bfa", "#f43f5e", "#14b8a6", "#eab308"];
 
-      y += 4;
-      for (const meal of (dplan.meals || []).slice(0, 6)) {
-        if (y > doc.page.height - 80) break;
-        doc.rect(50, y, doc.page.width - 100, 20).fill(DARK_GRAY);
-        doc.font("Helvetica-Bold").fontSize(10).fillColor(GOLD).text(`${meal.name}`, 58, y + 5);
-        doc.font("Helvetica").fontSize(9).fillColor(MID_GRAY).text(`${meal.time}  |  ${meal.calories} kcal`, doc.page.width - 220, y + 7, { align: "right", width: 160 });
-        y += 22;
-        for (const item of (meal.items || []).slice(0, 4)) {
-          doc.font("Helvetica").fontSize(8.5).fillColor(WHITE).text(`  • ${item}`, 58, y, { width: doc.page.width - 116 });
+      for (let mi = 0; mi < meals.length; mi++) {
+        const meal = meals[mi]!;
+        const ac = mealAccents[mi % mealAccents.length]!;
+        const items: string[] = meal.items || [];
+        const mealMacros = meal.macros as { protein?: number; carbs?: number; fat?: number } | undefined;
+
+        // Estimate card height
+        const itemCount = Math.min(items.length, 6);
+        const cardH = 28 + itemCount * 13 + (mealMacros ? 14 : 0) + 8;
+
+        if (y + cardH > doc.page.height - 60) {
+          drawFooter(doc);
+          y = newDietPage();
+          doc.font("Helvetica-Bold").fontSize(10).fillColor(GOLD).text("DAILY MEAL SCHEDULE (continued)", 50, y);
+          y += 18;
+        }
+
+        // Header bar
+        doc.rect(50, y, doc.page.width - 100, 26).fill(DARK_GRAY);
+        doc.rect(50, y, 4, 26).fill(ac);
+
+        // Meal number dot
+        doc.circle(70, y + 13, 8).fill(ac);
+        doc.font("Helvetica-Bold").fontSize(8).fillColor(BLACK).text(`${mi + 1}`, 67, y + 8, { width: 10 });
+
+        // Meal name
+        doc.font("Helvetica-Bold").fontSize(10).fillColor(WHITE)
+          .text(meal.name || `Meal ${mi + 1}`, 85, y + 8, { width: 250 });
+
+        // Time + calories (right-aligned)
+        const meta = [meal.time, meal.calories ? `${meal.calories} kcal` : ""].filter(Boolean).join("  ·  ");
+        if (meta) {
+          doc.font("Helvetica").fontSize(8).fillColor(MID_GRAY)
+            .text(meta, doc.page.width - 200, y + 9, { width: 140, align: "right" });
+        }
+        y += 28;
+
+        // Food items
+        for (let ii = 0; ii < Math.min(items.length, 6); ii++) {
+          doc.font("Helvetica").fontSize(8.5).fillColor("#d1d5db")
+            .text(`  ›  ${items[ii]}`, 56, y, { width: doc.page.width - 112 });
           y += 13;
         }
-        y += 4;
+
+        // Per-meal macros
+        if (mealMacros && (mealMacros.protein || mealMacros.carbs || mealMacros.fat)) {
+          doc.font("Helvetica").fontSize(7.5).fillColor("#555")
+            .text(
+              `P: ${mealMacros.protein ?? 0}g   C: ${mealMacros.carbs ?? 0}g   F: ${mealMacros.fat ?? 0}g`,
+              56, y, { width: 200 }
+            );
+          y += 13;
+        }
+        y += 7;
       }
 
+      // ── NUTRITION TIPS BOX ──────────────────────────────────────────────────
       if (dplan.nutritionTips) {
+        const tipText: string = dplan.nutritionTips;
+        const tipW = doc.page.width - 132;
+        const tipH = doc.heightOfString(tipText, { width: tipW }) + 44;
+
+        if (y + tipH > doc.page.height - 60) {
+          drawFooter(doc);
+          y = newDietPage();
+        }
+
         y += 8;
-        doc.font("Helvetica-Bold").fontSize(10).fillColor(GOLD).text("Nutrition Tips:", 50, y);
-        y += 14;
-        doc.font("Helvetica-Oblique").fontSize(9).fillColor(WHITE).text(dplan.nutritionTips, 50, y, { width: doc.page.width - 100 });
+        doc.rect(50, y, doc.page.width - 100, tipH).fill("#080808");
+        doc.rect(50, y, 4, tipH).fill(GOLD);
+        doc.rect(50, y, doc.page.width - 100, 1).fill(GOLD);
+        doc.font("Helvetica-Bold").fontSize(9).fillColor(GOLD)
+          .text("✦  NUTRITION TIPS", 62, y + 12);
+        doc.font("Helvetica-Oblique").fontSize(8.5).fillColor("#d1d5db")
+          .text(tipText, 62, y + 28, { width: tipW });
+        y += tipH + 10;
+      }
+
+      // ── SHOPPING LIST ────────────────────────────────────────────────────────
+      const shoppingList: string[] = Array.isArray(dplan.shoppingList) ? dplan.shoppingList : [];
+      if (shoppingList.length > 0) {
+        const halfLen = Math.ceil(shoppingList.length / 2);
+        const estimatedH = 30 + halfLen * 14;
+
+        if (y + estimatedH > doc.page.height - 80) {
+          drawFooter(doc);
+          y = newDietPage();
+        }
+
+        y += 8;
+        doc.rect(50, y, doc.page.width - 100, 1).fillColor("#2a2a2a").fill();
+        y += 12;
+        doc.font("Helvetica-Bold").fontSize(10).fillColor(GOLD).text("SHOPPING LIST", 50, y);
+        y += 16;
+
+        const col1X = 50;
+        const col2X = 50 + (doc.page.width - 100) / 2;
+        const colW  = (doc.page.width - 120) / 2;
+
+        for (let i = 0; i < halfLen; i++) {
+          if (y > doc.page.height - 60) break;
+          doc.font("Helvetica").fontSize(8.5).fillColor(WHITE)
+            .text(`✓  ${shoppingList[i]}`, col1X, y, { width: colW });
+          if (shoppingList[i + halfLen]) {
+            doc.font("Helvetica").fontSize(8.5).fillColor(WHITE)
+              .text(`✓  ${shoppingList[i + halfLen]}`, col2X, y, { width: colW });
+          }
+          y += 14;
+        }
+        y += 6;
+      }
+
+      // ── SUPPLEMENTARY GUIDELINES ─────────────────────────────────────────────
+      const extras: [string, string][] = [
+        ["Hydration Goal", dplan.hydrationGoal],
+        ["Supplements",   dplan.supplements],
+        ["Weekly Budget",  dplan.weeklyBudget],
+        ["Meal Prep Tips", dplan.mealPrepTips],
+      ].filter(([, v]) => !!v) as [string, string][];
+
+      if (extras.length > 0) {
+        if (y + extras.length * 18 + 40 > doc.page.height - 60) {
+          drawFooter(doc);
+          y = newDietPage();
+        }
+        y += 8;
+        doc.rect(50, y, doc.page.width - 100, 1).fillColor("#2a2a2a").fill();
+        y += 12;
+        doc.font("Helvetica-Bold").fontSize(10).fillColor(GOLD).text("SUPPLEMENTARY GUIDELINES", 50, y);
+        y += 16;
+        for (const [label, value] of extras) {
+          doc.font("Helvetica-Bold").fontSize(9).fillColor(MID_GRAY).text(`${label}:`, 50, y, { width: 140 });
+          doc.font("Helvetica").fontSize(9).fillColor(WHITE).text(value, 200, y, { width: doc.page.width - 250 });
+          y += 18;
+        }
       }
 
       drawFooter(doc);
