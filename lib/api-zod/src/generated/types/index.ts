@@ -12,3 +12,5 @@ export * from './contactResponse';
 export * from './errorResponse';
 export * from './healthStatus';
 export * from './newsletterInput';
+export * from './profileInput';
+export * from './userProfile';

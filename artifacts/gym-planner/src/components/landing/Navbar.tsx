@@ -3,11 +3,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/contexts/ThemeContext";
 import { Moon, Sun, Menu, X, Dumbbell } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useUser, useClerk } from "@clerk/react";
+import { Link } from "wouter";
 
 export function Navbar() {
   const { theme, setTheme } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { user, isSignedIn } = useUser();
+  const { signOut } = useClerk();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -66,9 +70,26 @@ export function Navbar() {
             >
               {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
-            <Button className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold px-6">
-              Get Started Free
-            </Button>
+            {isSignedIn ? (
+              <div className="flex items-center gap-4">
+                <span className="text-sm font-medium text-foreground">Hi, {user?.firstName}</span>
+                <Link href="/dashboard" className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors">
+                  Dashboard
+                </Link>
+                <Button variant="ghost" className="rounded-full px-6" onClick={() => signOut()}>
+                  Sign Out
+                </Button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-4">
+                <Button asChild variant="ghost" className="rounded-full px-6">
+                  <Link href="/sign-in">Sign In</Link>
+                </Button>
+                <Button asChild className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold px-6">
+                  <Link href="/sign-up">Get Started Free</Link>
+                </Button>
+              </div>
+            )}
           </div>
         </nav>
 
@@ -131,10 +152,26 @@ export function Navbar() {
               ))}
             </ul>
             
-            <div className="mt-auto pb-8">
-              <Button className="w-full rounded-full h-12 text-lg font-bold bg-primary text-primary-foreground">
-                Get Started Free
-              </Button>
+            <div className="mt-auto pb-8 flex flex-col gap-4">
+              {isSignedIn ? (
+                <>
+                  <Button asChild className="w-full rounded-full h-12 text-lg font-bold bg-primary text-primary-foreground">
+                    <Link href="/dashboard">Dashboard</Link>
+                  </Button>
+                  <Button variant="outline" className="w-full rounded-full h-12 text-lg font-bold" onClick={() => signOut()}>
+                    Sign Out
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button asChild className="w-full rounded-full h-12 text-lg font-bold bg-primary text-primary-foreground">
+                    <Link href="/sign-up">Get Started Free</Link>
+                  </Button>
+                  <Button asChild variant="outline" className="w-full rounded-full h-12 text-lg font-bold">
+                    <Link href="/sign-in">Sign In</Link>
+                  </Button>
+                </>
+              )}
             </div>
           </motion.div>
         )}

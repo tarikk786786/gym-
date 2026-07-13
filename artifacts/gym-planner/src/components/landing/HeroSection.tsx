@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion, useAnimation, useInView } from "framer-motion";
 import { useRef } from "react";
+import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Dumbbell, Download, ArrowRight, Zap, Users, ShieldCheck, Activity } from "lucide-react";
 import heroBgPath from "@assets/generated_images/hero_bg.jpg";
@@ -74,8 +75,10 @@ export function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1, duration: 0.5 }}
             >
-              <Button size="lg" className="w-full sm:w-auto rounded-full h-14 px-8 bg-primary text-primary-foreground hover:bg-primary/90 text-lg font-bold gap-2">
-                Generate AI Plan <ArrowRight className="w-5 h-5" />
+              <Button asChild size="lg" className="w-full sm:w-auto rounded-full h-14 px-8 bg-primary text-primary-foreground hover:bg-primary/90 text-lg font-bold gap-2">
+                <Link href="/sign-up">
+                  Generate AI Plan <ArrowRight className="w-5 h-5" />
+                </Link>
               </Button>
               <Button size="lg" variant="outline" className="w-full sm:w-auto rounded-full h-14 px-8 border-white/20 hover:bg-white/5 text-lg font-medium gap-2 glass-panel">
                 <Download className="w-5 h-5" /> Download PDF Sample

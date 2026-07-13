@@ -54,3 +54,109 @@ export const SubscribeNewsletterResponse = zod.object({
 })
 
 
+/**
+ * Returns the authenticated user's profile
+ * @summary Get current user profile
+ */
+export const GetProfileResponse = zod.object({
+  "id": zod.string(),
+  "fullName": zod.string().nullish(),
+  "age": zod.number().nullish(),
+  "gender": zod.string().nullish(),
+  "heightCm": zod.number().nullish(),
+  "weightKg": zod.number().nullish(),
+  "goal": zod.string().nullish(),
+  "activityLevel": zod.string().nullish(),
+  "workoutExperience": zod.string().nullish(),
+  "medicalConditions": zod.string().nullish(),
+  "injuries": zod.string().nullish(),
+  "allergies": zod.string().nullish(),
+  "chestCm": zod.number().nullish(),
+  "waistCm": zod.number().nullish(),
+  "hipsCm": zod.number().nullish(),
+  "armsCm": zod.number().nullish(),
+  "thighsCm": zod.number().nullish(),
+  "shouldersCm": zod.number().nullish(),
+  "dailyCalories": zod.number().nullish(),
+  "foodPreference": zod.string().nullish(),
+  "sleepHours": zod.number().nullish(),
+  "stressLevel": zod.number().nullish(),
+  "waterIntakeLiters": zod.number().nullish(),
+  "gymAvailability": zod.boolean().nullish(),
+  "equipment": zod.string().nullish(),
+  "workoutDaysPerWeek": zod.number().nullish(),
+  "preferredWorkoutTime": zod.string().nullish(),
+  "onboardingCompleted": zod.boolean().nullish(),
+  "createdAt": zod.string(),
+  "updatedAt": zod.string()
+})
+
+
+/**
+ * Upserts the authenticated user's profile data
+ * @summary Create or update user profile
+ */
+export const UpdateProfileBody = zod.object({
+  "fullName": zod.string().nullish(),
+  "age": zod.number().nullish(),
+  "gender": zod.string().nullish(),
+  "heightCm": zod.number().nullish(),
+  "weightKg": zod.number().nullish(),
+  "goal": zod.string().nullish(),
+  "activityLevel": zod.string().nullish(),
+  "workoutExperience": zod.string().nullish(),
+  "medicalConditions": zod.string().nullish(),
+  "injuries": zod.string().nullish(),
+  "allergies": zod.string().nullish(),
+  "chestCm": zod.number().nullish(),
+  "waistCm": zod.number().nullish(),
+  "hipsCm": zod.number().nullish(),
+  "armsCm": zod.number().nullish(),
+  "thighsCm": zod.number().nullish(),
+  "shouldersCm": zod.number().nullish(),
+  "dailyCalories": zod.number().nullish(),
+  "foodPreference": zod.string().nullish(),
+  "sleepHours": zod.number().nullish(),
+  "stressLevel": zod.number().nullish(),
+  "waterIntakeLiters": zod.number().nullish(),
+  "gymAvailability": zod.boolean().nullish(),
+  "equipment": zod.string().nullish(),
+  "workoutDaysPerWeek": zod.number().nullish(),
+  "preferredWorkoutTime": zod.string().nullish(),
+  "onboardingCompleted": zod.boolean().nullish()
+})
+
+export const UpdateProfileResponse = zod.object({
+  "id": zod.string(),
+  "fullName": zod.string().nullish(),
+  "age": zod.number().nullish(),
+  "gender": zod.string().nullish(),
+  "heightCm": zod.number().nullish(),
+  "weightKg": zod.number().nullish(),
+  "goal": zod.string().nullish(),
+  "activityLevel": zod.string().nullish(),
+  "workoutExperience": zod.string().nullish(),
+  "medicalConditions": zod.string().nullish(),
+  "injuries": zod.string().nullish(),
+  "allergies": zod.string().nullish(),
+  "chestCm": zod.number().nullish(),
+  "waistCm": zod.number().nullish(),
+  "hipsCm": zod.number().nullish(),
+  "armsCm": zod.number().nullish(),
+  "thighsCm": zod.number().nullish(),
+  "shouldersCm": zod.number().nullish(),
+  "dailyCalories": zod.number().nullish(),
+  "foodPreference": zod.string().nullish(),
+  "sleepHours": zod.number().nullish(),
+  "stressLevel": zod.number().nullish(),
+  "waterIntakeLiters": zod.number().nullish(),
+  "gymAvailability": zod.boolean().nullish(),
+  "equipment": zod.string().nullish(),
+  "workoutDaysPerWeek": zod.number().nullish(),
+  "preferredWorkoutTime": zod.string().nullish(),
+  "onboardingCompleted": zod.boolean().nullish(),
+  "createdAt": zod.string(),
+  "updatedAt": zod.string()
+})
+
+

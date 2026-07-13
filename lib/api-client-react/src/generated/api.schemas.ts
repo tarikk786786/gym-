@@ -42,3 +42,120 @@ export interface ErrorResponse {
   error: string;
 }
 
+export interface UserProfile {
+  id: string;
+  /** @nullable */
+  fullName?: string | null;
+  /** @nullable */
+  age?: number | null;
+  /** @nullable */
+  gender?: string | null;
+  /** @nullable */
+  heightCm?: number | null;
+  /** @nullable */
+  weightKg?: number | null;
+  /** @nullable */
+  goal?: string | null;
+  /** @nullable */
+  activityLevel?: string | null;
+  /** @nullable */
+  workoutExperience?: string | null;
+  /** @nullable */
+  medicalConditions?: string | null;
+  /** @nullable */
+  injuries?: string | null;
+  /** @nullable */
+  allergies?: string | null;
+  /** @nullable */
+  chestCm?: number | null;
+  /** @nullable */
+  waistCm?: number | null;
+  /** @nullable */
+  hipsCm?: number | null;
+  /** @nullable */
+  armsCm?: number | null;
+  /** @nullable */
+  thighsCm?: number | null;
+  /** @nullable */
+  shouldersCm?: number | null;
+  /** @nullable */
+  dailyCalories?: number | null;
+  /** @nullable */
+  foodPreference?: string | null;
+  /** @nullable */
+  sleepHours?: number | null;
+  /** @nullable */
+  stressLevel?: number | null;
+  /** @nullable */
+  waterIntakeLiters?: number | null;
+  /** @nullable */
+  gymAvailability?: boolean | null;
+  /** @nullable */
+  equipment?: string | null;
+  /** @nullable */
+  workoutDaysPerWeek?: number | null;
+  /** @nullable */
+  preferredWorkoutTime?: string | null;
+  /** @nullable */
+  onboardingCompleted?: boolean | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ProfileInput {
+  /** @nullable */
+  fullName?: string | null;
+  /** @nullable */
+  age?: number | null;
+  /** @nullable */
+  gender?: string | null;
+  /** @nullable */
+  heightCm?: number | null;
+  /** @nullable */
+  weightKg?: number | null;
+  /** @nullable */
+  goal?: string | null;
+  /** @nullable */
+  activityLevel?: string | null;
+  /** @nullable */
+  workoutExperience?: string | null;
+  /** @nullable */
+  medicalConditions?: string | null;
+  /** @nullable */
+  injuries?: string | null;
+  /** @nullable */
+  allergies?: string | null;
+  /** @nullable */
+  chestCm?: number | null;
+  /** @nullable */
+  waistCm?: number | null;
+  /** @nullable */
+  hipsCm?: number | null;
+  /** @nullable */
+  armsCm?: number | null;
+  /** @nullable */
+  thighsCm?: number | null;
+  /** @nullable */
+  shouldersCm?: number | null;
+  /** @nullable */
+  dailyCalories?: number | null;
+  /** @nullable */
+  foodPreference?: string | null;
+  /** @nullable */
+  sleepHours?: number | null;
+  /** @nullable */
+  stressLevel?: number | null;
+  /** @nullable */
+  waterIntakeLiters?: number | null;
+  /** @nullable */
+  gymAvailability?: boolean | null;
+  /** @nullable */
+  equipment?: string | null;
+  /** @nullable */
+  workoutDaysPerWeek?: number | null;
+  /** @nullable */
+  preferredWorkoutTime?: string | null;
+  /** @nullable */
+  onboardingCompleted?: boolean | null;
+}
+

@@ -12,6 +12,8 @@ tags:
     description: Health operations
   - name: contact
     description: Contact and newsletter operations
+  - name: profile
+    description: User profile operations
 paths:
   /healthz:
     get:
@@ -76,6 +78,61 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+  /profile:
+    get:
+      operationId: getProfile
+      tags: [profile]
+      summary: Get current user profile
+      description: Returns the authenticated user's profile
+      responses:
+        "200":
+          description: User profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserProfile"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Profile not found (onboarding not completed)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    put:
+      operationId: updateProfile
+      tags: [profile]
+      summary: Create or update user profile
+      description: Upserts the authenticated user's profile data
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProfileInput"
+      responses:
+        "200":
+          description: Profile saved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserProfile"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 components:
   schemas:
     HealthStatus:
@@ -131,3 +188,127 @@ components:
           type: string
       required:
         - error
+    UserProfile:
+      type: object
+      properties:
+        id:
+          type: string
+        fullName:
+          type: ["string", "null"]
+        age:
+          type: ["integer", "null"]
+        gender:
+          type: ["string", "null"]
+        heightCm:
+          type: ["number", "null"]
+        weightKg:
+          type: ["number", "null"]
+        goal:
+          type: ["string", "null"]
+        activityLevel:
+          type: ["string", "null"]
+        workoutExperience:
+          type: ["string", "null"]
+        medicalConditions:
+          type: ["string", "null"]
+        injuries:
+          type: ["string", "null"]
+        allergies:
+          type: ["string", "null"]
+        chestCm:
+          type: ["number", "null"]
+        waistCm:
+          type: ["number", "null"]
+        hipsCm:
+          type: ["number", "null"]
+        armsCm:
+          type: ["number", "null"]
+        thighsCm:
+          type: ["number", "null"]
+        shouldersCm:
+          type: ["number", "null"]
+        dailyCalories:
+          type: ["integer", "null"]
+        foodPreference:
+          type: ["string", "null"]
+        sleepHours:
+          type: ["number", "null"]
+        stressLevel:
+          type: ["integer", "null"]
+        waterIntakeLiters:
+          type: ["number", "null"]
+        gymAvailability:
+          type: ["boolean", "null"]
+        equipment:
+          type: ["string", "null"]
+        workoutDaysPerWeek:
+          type: ["integer", "null"]
+        preferredWorkoutTime:
+          type: ["string", "null"]
+        onboardingCompleted:
+          type: ["boolean", "null"]
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+        - id
+        - createdAt
+        - updatedAt
+    ProfileInput:
+      type: object
+      properties:
+        fullName:
+          type: ["string", "null"]
+        age:
+          type: ["integer", "null"]
+        gender:
+          type: ["string", "null"]
+        heightCm:
+          type: ["number", "null"]
+        weightKg:
+          type: ["number", "null"]
+        goal:
+          type: ["string", "null"]
+        activityLevel:
+          type: ["string", "null"]
+        workoutExperience:
+          type: ["string", "null"]
+        medicalConditions:
+          type: ["string", "null"]
+        injuries:
+          type: ["string", "null"]
+        allergies:
+          type: ["string", "null"]
+        chestCm:
+          type: ["number", "null"]
+        waistCm:
+          type: ["number", "null"]
+        hipsCm:
+          type: ["number", "null"]
+        armsCm:
+          type: ["number", "null"]
+        thighsCm:
+          type: ["number", "null"]
+        shouldersCm:
+          type: ["number", "null"]
+        dailyCalories:
+          type: ["integer", "null"]
+        foodPreference:
+          type: ["string", "null"]
+        sleepHours:
+          type: ["number", "null"]
+        stressLevel:
+          type: ["integer", "null"]
+        waterIntakeLiters:
+          type: ["number", "null"]
+        gymAvailability:
+          type: ["boolean", "null"]
+        equipment:
+          type: ["string", "null"]
+        workoutDaysPerWeek:
+          type: ["integer", "null"]
+        preferredWorkoutTime:
+          type: ["string", "null"]
+        onboardingCompleted:
+          type: ["boolean", "null"]
