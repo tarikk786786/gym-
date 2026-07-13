@@ -1,0 +1,694 @@
+```text
+You are an elite team of Senior Product Designers, UI/UX Experts, AI Engineers, Fitness Coaches, Nutritionists, Sports Scientists, Personal Trainers, Full-Stack Developers, Security Engineers, SEO Experts, and Performance Optimization Specialists.
+
+Build a world-class AI-powered fitness web application called:
+
+# Tarik Islam AI Gym Planner
+
+Official Branding:
+- Brand Name: Tarik Islam AI Gym Planner
+- Website: https://tarikislam.in
+- Designer & Developer: Tarik Islam
+- Footer:
+  Designed & Developed by Tarik Islam
+  https://tarikislam.in
+
+==========================================================
+MISSION
+==========================================================
+
+Create the most premium AI fitness planner on the internet with beautiful UI, professional UX, advanced AI features, animations, PDF reports, progress tracking, and complete responsiveness.
+
+The application should feel more premium than MyFitnessPal, Fitbod, Strong, Hevy, Nike Training Club, and Freeletics.
+
+==========================================================
+TECH STACK
+==========================================================
+
+Use latest stable versions.
+
+Next.js 15
+React 19
+TypeScript
+Tailwind CSS
+Shadcn UI
+Framer Motion
+GSAP
+Three.js
+React Hook Form
+Zod
+TanStack Query
+Supabase
+Prisma
+PostgreSQL
+Redis
+Cloudinary
+NextAuth
+OpenAI API (optional)
+Google Gemini API (optional)
+PDF Generation
+Chart.js
+Recharts
+PWA
+Dark Mode
+
+==========================================================
+DESIGN
+==========================================================
+
+Create a luxury modern design.
+
+Color Palette
+
+Primary
+Gold (#FFD700)
+
+Secondary
+Black (#090909)
+
+Background
+#050505
+
+Cards
+Glassmorphism
+
+Accent
+White
+
+Rounded corners
+Large
+
+Animations
+Ultra smooth
+
+Micro interactions
+
+Hover effects
+
+3D background
+
+Floating particles
+
+Animated gradients
+
+Premium typography
+
+No generic template design.
+
+Every section should have premium spacing and animations.
+
+==========================================================
+LANDING PAGE
+==========================================================
+
+Luxury Hero
+
+Animated gym background
+
+3D fitness illustration
+
+Floating dumbbells
+
+Animated statistics
+
+Call To Action
+
+Generate AI Plan
+
+Download PDF
+
+Features
+
+Testimonials
+
+Transformations
+
+FAQs
+
+Pricing
+
+Contact
+
+Newsletter
+
+==========================================================
+AUTHENTICATION
+==========================================================
+
+Email
+
+Google
+
+GitHub
+
+OTP
+
+Forgot Password
+
+==========================================================
+USER PROFILE
+==========================================================
+
+Collect
+
+Full Name
+
+Age
+
+Gender
+
+Height
+
+Weight
+
+Goal
+
+Activity Level
+
+Workout Experience
+
+Medical Conditions
+
+Injuries
+
+Allergies
+
+Body Measurements
+
+Daily Calories
+
+Food Preference
+
+Vegetarian
+
+Non Vegetarian
+
+Vegan
+
+Keto
+
+Sleep
+
+Stress
+
+Water Intake
+
+Gym Availability
+
+Equipment
+
+Workout Days
+
+Workout Time
+
+==========================================================
+AI CALCULATORS
+==========================================================
+
+BMI
+
+Body Fat
+
+Lean Body Mass
+
+Ideal Weight
+
+BMR
+
+TDEE
+
+Maintenance Calories
+
+Fat Loss Calories
+
+Muscle Gain Calories
+
+Protein Intake
+
+Carbohydrate Intake
+
+Fat Intake
+
+Water Intake
+
+One Rep Max
+
+Strength Ratio
+
+Calorie Burn
+
+Pace Calculator
+
+==========================================================
+AI WORKOUT GENERATOR
+==========================================================
+
+Generate personalized workout.
+
+Support
+
+Beginner
+
+Intermediate
+
+Advanced
+
+Home Workout
+
+Gym Workout
+
+Bodybuilding
+
+Powerlifting
+
+Strength
+
+Weight Loss
+
+Muscle Gain
+
+Body Recomposition
+
+Women's Fitness
+
+Senior Fitness
+
+Student Fitness
+
+Office Workers
+
+Workout Split
+
+Push Pull Legs
+
+Upper Lower
+
+Arnold Split
+
+Bro Split
+
+Full Body
+
+Each workout must include
+
+Exercise Name
+
+HD Image
+
+Animated Muscle Highlight
+
+Video Tutorial
+
+Target Muscle
+
+Secondary Muscle
+
+Sets
+
+Reps
+
+Rest
+
+Tempo
+
+Weight
+
+RPE
+
+Technique Tips
+
+Mistakes
+
+Warm-up
+
+Cooldown
+
+Stretching
+
+Estimated Time
+
+Difficulty
+
+==========================================================
+AI DIET PLANNER
+==========================================================
+
+Generate complete meal plans.
+
+Support
+
+Indian
+
+Pakistani
+
+Bangladeshi
+
+Mediterranean
+
+Keto
+
+Vegan
+
+Vegetarian
+
+Non Vegetarian
+
+High Protein
+
+Low Carb
+
+Budget Diet
+
+Premium Diet
+
+Meals
+
+Breakfast
+
+Morning Snack
+
+Lunch
+
+Evening Snack
+
+Dinner
+
+Before Sleep
+
+Show
+
+Calories
+
+Protein
+
+Carbs
+
+Fat
+
+Fiber
+
+Sugar
+
+Micronutrients
+
+Shopping List
+
+Weekly Grocery List
+
+Monthly Grocery Budget
+
+==========================================================
+PROGRESS TRACKER
+==========================================================
+
+Track
+
+Weight
+
+Body Fat
+
+BMI
+
+Calories
+
+Workout
+
+Water
+
+Sleep
+
+Measurements
+
+Chest
+
+Waist
+
+Arms
+
+Legs
+
+Shoulders
+
+Photos
+
+Workout History
+
+PR Records
+
+Graphs
+
+Charts
+
+Achievements
+
+Badges
+
+Weekly Reports
+
+Monthly Reports
+
+==========================================================
+AI COACH
+==========================================================
+
+Smart AI Chat
+
+Voice Assistant
+
+Workout Suggestions
+
+Diet Suggestions
+
+Motivation
+
+Daily Tips
+
+Progress Analysis
+
+Plateau Detection
+
+Recovery Advice
+
+Sleep Advice
+
+Supplement Guide
+
+==========================================================
+PDF REPORT
+==========================================================
+
+Generate a luxury professional PDF.
+
+Cover
+
+Client Name
+
+Today's Date
+
+Fitness Score
+
+QR Code
+
+Tarik Islam Branding
+
+Website
+
+https://tarikislam.in
+
+Inside PDF
+
+Personal Details
+
+Fitness Analysis
+
+BMI
+
+Body Fat
+
+Calories
+
+Macros
+
+Workout Plan
+
+Diet Plan
+
+Exercise Images
+
+Weekly Schedule
+
+Progress Charts
+
+Recommendations
+
+Motivational Quote
+
+Trainer Notes
+
+Signature
+
+Every page footer
+
+Designed & Developed by Tarik Islam
+
+https://tarikislam.in
+
+Download
+
+PDF
+
+Print
+
+Share
+
+==========================================================
+ADMIN PANEL
+==========================================================
+
+Dashboard
+
+Users
+
+Workout Templates
+
+Diet Templates
+
+Reports
+
+Analytics
+
+Blogs
+
+SEO
+
+Leads
+
+Newsletter
+
+Contact Messages
+
+System Settings
+
+==========================================================
+SEO
+==========================================================
+
+100/100 SEO
+
+100/100 Accessibility
+
+100/100 Best Practices
+
+100/100 Performance
+
+Schema
+
+Robots
+
+Sitemap
+
+Dynamic Meta
+
+Structured Data
+
+Canonical URLs
+
+Open Graph
+
+Twitter Cards
+
+Lazy Loading
+
+Image Optimization
+
+==========================================================
+SECURITY
+==========================================================
+
+Rate Limiting
+
+Input Validation
+
+Zod Validation
+
+SQL Injection Protection
+
+CSRF Protection
+
+XSS Protection
+
+CSP
+
+Helmet
+
+Encryption
+
+Secure Authentication
+
+Audit Logs
+
+==========================================================
+PERFORMANCE
+==========================================================
+
+Lazy Loading
+
+Server Components
+
+Streaming
+
+Caching
+
+Image Optimization
+
+Dynamic Imports
+
+Code Splitting
+
+CDN Ready
+
+PWA
+
+Offline Support
+
+==========================================================
+CONTACT SECTION
+==========================================================
+
+Need Personal Coaching?
+
+Tarik Islam
+
+Website:
+https://tarikislam.in
+
+Services
+
+Personal Training
+
+Diet Consultation
+
+Fitness Coaching
+
+AI Solutions
+
+Website Development
+
+Digital Marketing
+
+==========================================================
+FINAL REQUIREMENTS
+==========================================================
+
+Build a complete production-ready SaaS application.
+
+The code must be clean, modular, scalable, secure, responsive, SEO-optimized, and deployment-ready.
+
+Include beautiful animations, premium illustrations, accessible design, reusable components, dark/light mode, complete documentation, and one-click deployment support for Vercel, Netlify, Docker, and Coolify.
+
+Before finalizing:
+- Audit the entire project for bugs, accessibility issues, performance bottlenecks, responsiveness, and security vulnerabilities.
+- Automatically fix any issues found.
+- Ensure there are no placeholder assets, broken links, console errors, or TypeScript/ESLint errors.
+- Deliver a polished, premium experience suitable for commercial launch.
+```
